@@ -43,3 +43,7 @@ jobs:
       - name: Build
         working-directory: .\Engine\Build\Windows\
         run: .\Build.bat ${{ matrix.platform }} ${{ matrix.configuration }}
+
+      - name: Test
+        working-directory: .\Engine\Build\Windows\
+        run: .\Test.bat ${{ matrix.platform }} ${{ matrix.configuration }}
