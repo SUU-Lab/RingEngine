@@ -12,3 +12,8 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_executable(${TARGET_NAME} Main.cpp)
+
+if(MSVC)
+    target_compile_options(${TARGET_NAME} PUBLIC "/Zc:__cplusplus")
+endif()
+
