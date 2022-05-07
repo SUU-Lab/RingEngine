@@ -34,3 +34,4 @@
 .vs/
 
 Engine/Source/out/
+Engine/Build/Windows/build/
