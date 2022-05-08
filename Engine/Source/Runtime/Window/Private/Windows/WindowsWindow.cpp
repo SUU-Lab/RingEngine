@@ -41,7 +41,6 @@ WindowsWindow::WindowsWindow(const ClientExtent& clientExtent, std::string_view 
         title,
         this
     );
-
     if (!m_hWnd) { assert(false); }
 }
 
@@ -59,13 +58,14 @@ std::string WindowsWindow::GetTitle() const
 {
     CHAR title[128];
     ::GetWindowTextA(m_hWnd, title, ARRAYSIZE(title));
+    if (::GetLastError()) { assert(false); }
     return title;
 }
 
 ClientExtent WindowsWindow::GetClientExtent() const
 {
     RECT rect = {};
-    ::GetClientRect(m_hWnd, &rect);
+    if (!::GetClientRect(m_hWnd, &rect)) { assert(false); }
 
     return ClientExtent(
         static_cast<std::uint32_t>(rect.right - rect.left),
@@ -76,7 +76,7 @@ ClientExtent WindowsWindow::GetClientExtent() const
 WindowExtent WindowsWindow::GetWindowExtent() const
 {
     RECT rect = {};
-    ::GetWindowRect(m_hWnd, &rect);
+    if (!::GetWindowRect(m_hWnd, &rect)) { assert(false); }
 
     return WindowExtent(
         static_cast<std::uint32_t>(rect.right - rect.left),
@@ -92,6 +92,7 @@ LRESULT CALLBACK WindowsWindow::WndProc(
     {
         const LPCREATESTRUCTA createStruct = reinterpret_cast<LPCREATESTRUCTA>(lParam);
         ::SetWindowLongPtrA(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(createStruct->lpCreateParams));
+        if (::GetLastError()) { assert(false); }
         return 0;
     }
 
@@ -100,6 +101,7 @@ LRESULT CALLBACK WindowsWindow::WndProc(
     case WM_CLOSE:
     {
         WindowsWindow* self = reinterpret_cast<WindowsWindow*>(::GetWindowLongPtrA(hWnd, GWLP_USERDATA));
+        if (::GetLastError()) { assert(false); }
         assert(self);
         self->Destroy();
     }
@@ -137,7 +139,7 @@ void WindowsWindow::Destroy()
 [[nodiscard]] static HICON LoadApplicationIcon(const TCHAR* iconName, HINSTANCE hInstance, int iconSize)
 {
     HICON result = reinterpret_cast<HICON>(
-        ::LoadImage(
+        ::LoadImageA(
             hInstance,
             iconName,
             IMAGE_ICON,
@@ -155,7 +157,7 @@ void WindowsWindow::Destroy()
     constexpr int smallIconSize = 16;
 
     // 拡張ウィンドウクラスの設定
-    WNDCLASSEX windowClassEX = {};
+    WNDCLASSEXA windowClassEX = {};
 
     const HINSTANCE hInstance = ::GetModuleHandleA(nullptr);
 
@@ -175,7 +177,7 @@ void WindowsWindow::Destroy()
         windowClassEX.lpszClassName = WINDOW_CLASS_NAME;
     }
 
-    if (!::RegisterClassEx(&windowClassEX))
+    if (!::RegisterClassExA(&windowClassEX))
     {
         return false;
     }
@@ -195,7 +197,7 @@ void WindowsWindow::Destroy()
         static_cast<LONG>(clientExtent.Height())
     };
 
-    ::AdjustWindowRectEx(&rect, WINDOW_STYLE, hasMenu, WINDOW_STYLE_EX);
+    if (!::AdjustWindowRectEx(&rect, WINDOW_STYLE, hasMenu, WINDOW_STYLE_EX)) { assert(false); }
 
     return {
         static_cast<std::uint32_t>(rect.right - rect.left),
@@ -226,19 +228,19 @@ void WindowsWindow::Destroy()
         reinterpret_cast<LPVOID>(owner)
     );
 
-    if (!hWnd) { return nullptr; }
+    assert(hWnd);
 
     ::SetLastError(0);
     ::ShowWindow(hWnd, SW_SHOWNORMAL);
-    if (::GetLastError()) { ::DestroyWindow(hWnd); return nullptr; }
+    if (::GetLastError()) { ::DestroyWindow(hWnd); assert(false); }
 
     ::SetLastError(0);
     ::UpdateWindow(hWnd);
-    if (::GetLastError()) { ::DestroyWindow(hWnd); return nullptr; }
+    if (::GetLastError()) { ::DestroyWindow(hWnd); assert(false); }
 
     ::SetLastError(0);
     ::SetFocus(hWnd);
-    if (::GetLastError()) { ::DestroyWindow(hWnd); return nullptr; }
+    if (::GetLastError()) { ::DestroyWindow(hWnd); assert(false); }
 
     return hWnd;
 }
