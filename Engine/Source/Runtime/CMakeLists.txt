@@ -24,3 +24,4 @@ if(MSVC)
 endif()
 
 add_subdirectory(Tests)
+add_subdirectory(Window)
