@@ -11,11 +11,6 @@ for /f "usebackq delims=" %%A in (`dir /b /a:d`) do (
 
 set RING_ENGINE_SOURCE_ROOT=..\..\Source\
 
-for /f "usebackq delims=" %%A in (`vswhere.exe -products * -requires Microsoft.Component.MSBuild -property installationPath -latest`) do (
-        set VS_INSTALL_PATH=%%A
-)
-echo VS_INSTALL_PATH=%VS_INSTALL_PATH%
-
 set TEST_RESULT=1
 
 @rem %1 : platform x86 x64
