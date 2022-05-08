@@ -11,16 +11,34 @@ endif()
 
 project(${TARGET_NAME} LANGUAGES C CXX)
 
-add_library(${TARGET_NAME}
-    ${PROJECT_SOURCE_DIR}/Private/ClientExtent.cpp
-)
+add_library(${TARGET_NAME})
 add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
-target_include_directories(${TARGET_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/Private)
-target_include_directories(${TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/Public)
+target_sources(
+    ${TARGET_NAME}
+    PRIVATE
+    "Private/ClientExtent.cpp"
+    "Private/WindowExtent.cpp"
+)
+
+target_include_directories(
+    ${TARGET_NAME}
+    PRIVATE
+    "${PROJECT_SOURCE_DIR}/Private"
+)
+
+target_include_directories(
+    ${TARGET_NAME}
+    PUBLIC
+    "${PROJECT_SOURCE_DIR}/Public"
+)
 
 if(MSVC)
-    target_compile_options(${TARGET_NAME} PUBLIC "/Zc:__cplusplus")
+    target_compile_options(
+        ${TARGET_NAME}
+        PUBLIC
+        "/Zc:__cplusplus"
+    )
 endif()
 
 add_subdirectory(Tests)
