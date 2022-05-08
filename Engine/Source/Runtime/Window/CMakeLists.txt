@@ -19,6 +19,9 @@ target_sources(
     PRIVATE
     "Private/ClientExtent.cpp"
     "Private/WindowExtent.cpp"
+    $<$<PLATFORM_ID:Windows>:
+        "Private/Windows/WindowsWindow.cpp"
+    >
 )
 
 target_include_directories(
