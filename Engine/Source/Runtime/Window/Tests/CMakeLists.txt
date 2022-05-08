@@ -5,8 +5,9 @@ set(TARGET_NAME Ring_Window_Test)
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_executable(${TARGET_NAME}
-    "${PROJECT_SOURCE_DIR}/Test_ClientExtent.cpp"
-    "${PROJECT_SOURCE_DIR}/Test_WindowExtent.cpp"
+    "Test_ClientExtent.cpp"
+    "Test_WindowExtent.cpp"
+    "Test_Window.cpp"
 )
 
 set_target_properties(${TARGET_NAME} PROPERTIES FOLDER "Tests")
