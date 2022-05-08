@@ -44,4 +44,5 @@ if(MSVC)
     )
 endif()
 
+add_subdirectory(Samples)
 add_subdirectory(Tests)
