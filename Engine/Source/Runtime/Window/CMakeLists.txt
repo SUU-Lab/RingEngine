@@ -14,13 +14,19 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME})
 add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
+find_package(X11)
+
 target_sources(
     ${TARGET_NAME}
     PRIVATE
     "Private/ClientExtent.cpp"
     "Private/WindowExtent.cpp"
+    "Private/X11/X11Window.cpp"
     $<$<PLATFORM_ID:Windows>:
-        "Private/Windows/WindowsWindow.cpp"
+            "Private/Windows/WindowsWindow.cpp"
+
+        $<PLATFORM_ID:Linux>:
+            "Private/X11/X11Window.cpp"
     >
 )
 
@@ -42,6 +48,10 @@ if(MSVC)
         PUBLIC
         "/Zc:__cplusplus"
     )
+endif()
+
+if (X11_FOUND)
+    target_link_libraries(${TARGET_NAME} PRIVATE X11::X11)
 endif()
 
 add_subdirectory(Samples)
