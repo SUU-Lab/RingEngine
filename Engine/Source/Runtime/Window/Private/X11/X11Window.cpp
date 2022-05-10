@@ -1,4 +1,4 @@
-#include "X11/X11Window.hpp"
+﻿#include "X11/X11Window.hpp"
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 
@@ -69,17 +69,40 @@ void X11Window::SetTitle(std::string_view title)
 
 std::string X11Window::GetTitle() const
 {
-    return "";
+    XTextProperty text;
+    XGetWMName(m_display, m_window, &text);
+
+    return std::string(reinterpret_cast<const char*>(text.value));
 }
 
 ClientExtent X11Window::GetClientExtent() const
 {
-    return ClientExtent(0, 0);
+    ::Window root;
+    int x, y;
+    unsigned int width, height;
+    unsigned int border, depth;
+
+    XGetGeometry(
+        m_display,
+        m_window,
+        &root,
+        &x, &y,
+        &width, &height,
+        &border, &depth);
+
+    return ClientExtent(
+        static_cast<std::uint32_t>(width),
+        static_cast<std::uint32_t>(height));
 }
 
 WindowExtent X11Window::GetWindowExtent() const
 {
-    return WindowExtent(0, 0);
+    // X11でフレームを含むサイズの取得方法がわからないので、クライアントサイズをそのまま返す
+    const ClientExtent clientExtent = GetClientExtent();
+
+    return WindowExtent(
+        clientExtent.Width(),
+        clientExtent.Height());
 }
 
 void X11Window::Destroy()

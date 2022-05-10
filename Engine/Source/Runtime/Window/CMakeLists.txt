@@ -14,20 +14,13 @@ project(${TARGET_NAME} LANGUAGES C CXX)
 add_library(${TARGET_NAME})
 add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
-find_package(X11)
-
 target_sources(
     ${TARGET_NAME}
     PRIVATE
-    "Private/ClientExtent.cpp"
-    "Private/WindowExtent.cpp"
-    "Private/X11/X11Window.cpp"
-    $<$<PLATFORM_ID:Windows>:
-            "Private/Windows/WindowsWindow.cpp"
-
-        $<PLATFORM_ID:Linux>:
-            "Private/X11/X11Window.cpp"
-    >
+    "${CMAKE_CURRENT_SOURCE_DIR}/Private/ClientExtent.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Private/WindowExtent.cpp"
+    "$<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Windows/WindowsWindow.cpp>"
+    "$<$<PLATFORM_ID:Linux>:${CMAKE_CURRENT_SOURCE_DIR}/Private/X11/X11Window.cpp>"
 )
 
 target_include_directories(
@@ -42,6 +35,13 @@ target_include_directories(
     "${PROJECT_SOURCE_DIR}/Public"
 )
 
+target_compile_definitions(
+    ${TARGET_NAME}
+    PUBLIC
+    "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
+    "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
+)
+
 if(MSVC)
     target_compile_options(
         ${TARGET_NAME}
@@ -50,6 +50,7 @@ if(MSVC)
     )
 endif()
 
+find_package(X11)
 if (X11_FOUND)
     target_link_libraries(${TARGET_NAME} PRIVATE X11::X11)
 endif()
