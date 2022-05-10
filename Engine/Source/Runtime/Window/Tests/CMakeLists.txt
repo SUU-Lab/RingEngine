@@ -11,7 +11,13 @@ add_executable(${TARGET_NAME}
 )
 
 set_target_properties(${TARGET_NAME} PROPERTIES FOLDER "Tests")
-target_link_libraries(${TARGET_NAME} PRIVATE Ring::Window gtest_main gtest)
+
+target_link_libraries(
+    ${TARGET_NAME} PRIVATE
+    Ring::Window
+    GTest::gtest
+	GTest::gtest_main
+)
 
 include(GoogleTest)
 gtest_discover_tests(${TARGET_NAME})

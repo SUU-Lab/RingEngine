@@ -1,5 +1,5 @@
-#include "Window.hpp"
 #include <gtest/gtest.h>
+#include "Window.hpp"
 
 TEST(Window, Property)
 {
