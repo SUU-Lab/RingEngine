@@ -23,7 +23,7 @@ constexpr DWORD WINDOW_STYLE_EX = WS_EX_OVERLAPPEDWINDOW;
 );
 
 [[nodiscard]] static HWND CreateWindow(
-    const ClientExtent& clientExtent,
+    const WindowExtent& windowExtent,
     std::string_view title,
     WindowsWindow* owner
 );
@@ -37,7 +37,7 @@ WindowsWindow::WindowsWindow(const ClientExtent& clientExtent, std::string_view 
     if (!RegisterWindowClass(&WndProc)) { assert(false); }
 
     m_hWnd = CreateWindow(
-        clientExtent,
+        CalcWindowExtent(FALSE, clientExtent),
         title,
         this
     );
@@ -206,13 +206,10 @@ void WindowsWindow::Destroy()
 }
 
 [[nodiscard]] static HWND CreateWindow(
-    const ClientExtent& clientExtent,
+    const WindowExtent& windowExtent,
     std::string_view title,
     WindowsWindow* owner)
 {
-    const WindowExtent windowExtent = CalcWindowExtent(FALSE, clientExtent);
-
-    // ウィンドウを生成
     HWND hWnd = ::CreateWindowExA(
         WINDOW_STYLE_EX,
         WINDOW_CLASS_NAME,
