@@ -5,7 +5,7 @@
 #include "WindowExtent.hpp"
 #include <string_view>
 
-namespace Ring {
+namespace ring {
 
 class WindowsWindow
 {
@@ -33,4 +33,4 @@ private:
 
 typedef WindowsWindow Window;
 
-} // namespace Ring
+} // namespace ring

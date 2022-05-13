@@ -6,7 +6,7 @@
 #include <string>
 #include <X11/Xlib.h>
 
-namespace Ring {
+namespace ring {
 
 class X11Window
 {
@@ -33,4 +33,4 @@ private:
 
 typedef X11Window Window;
 
-} // namespace Ring
+} // namespace ring

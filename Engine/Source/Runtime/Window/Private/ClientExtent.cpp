@@ -1,6 +1,6 @@
 #include "ClientExtent.hpp"
 
-namespace Ring {
+namespace ring {
 
 ClientExtent::ClientExtent(const std::uint32_t width, const std::uint32_t height)
     : width_(width)
@@ -17,4 +17,4 @@ std::uint32_t ClientExtent::Height() const
     return height_;
 }
 
-} // namespace Ring
+} // namespace ring

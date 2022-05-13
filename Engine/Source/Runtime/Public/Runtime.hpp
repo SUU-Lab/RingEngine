@@ -2,8 +2,8 @@
 
 #include <string>
 
-namespace Ring {
+namespace ring {
 
 std::string EngineName();
 
-} // namespace Ring
+} // namespace ring

@@ -3,5 +3,5 @@
 
 TEST(Runtime, EngineName)
 {
-    EXPECT_EQ("RingEngine", Ring::EngineName());
+    EXPECT_EQ("RingEngine", ring::EngineName());
 }

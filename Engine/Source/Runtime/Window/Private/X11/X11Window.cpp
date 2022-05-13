@@ -2,7 +2,7 @@
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 
-namespace Ring {
+namespace ring {
 
 X11Window::X11Window(const ClientExtent& clientExtent, std::string_view title)
 {
@@ -114,4 +114,4 @@ void X11Window::Destroy()
     m_display = nullptr;
 }
 
-} // namespace Ring
+} // namespace ring

@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace Ring {
+namespace ring {
 
 class ClientExtent
 {
@@ -17,4 +17,4 @@ private:
     const std::uint32_t height_;
 };
 
-} // namespace Ring
+} // namespace ring

@@ -27,10 +27,6 @@ target_include_directories(
     ${TARGET_NAME}
     PRIVATE
     "${PROJECT_SOURCE_DIR}/Private"
-)
-
-target_include_directories(
-    ${TARGET_NAME}
     PUBLIC
     "${PROJECT_SOURCE_DIR}/Public"
 )

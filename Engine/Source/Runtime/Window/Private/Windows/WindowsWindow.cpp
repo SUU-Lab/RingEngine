@@ -5,7 +5,7 @@
 #undef CreateWindow
 #endif
 
-namespace Ring {
+namespace ring {
 
 constexpr const CHAR WINDOW_CLASS_NAME[] = "SUU_RUNTIME_WINDOW";
 constexpr DWORD WINDOW_STYLE = WS_OVERLAPPEDWINDOW;
@@ -255,4 +255,4 @@ void WindowsWindow::Destroy()
     return msg.message != WM_QUIT;
 }
 
-} // namespace Ring
+} // namespace ring

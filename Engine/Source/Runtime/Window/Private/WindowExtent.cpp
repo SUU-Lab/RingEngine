@@ -1,6 +1,6 @@
 #include "WindowExtent.hpp"
 
-namespace Ring {
+namespace ring {
 
 WindowExtent::WindowExtent(const std::uint32_t width, const std::uint32_t height)
     : width_(width)
@@ -17,4 +17,4 @@ std::uint32_t WindowExtent::Height() const
     return height_;
 }
 
-} // namespace Ring
+} // namespace ring
