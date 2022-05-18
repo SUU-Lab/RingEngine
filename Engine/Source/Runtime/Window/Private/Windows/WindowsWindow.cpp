@@ -5,33 +5,33 @@
 #undef CreateWindow
 #endif
 
-namespace ring {
-
-constexpr const CHAR WINDOW_CLASS_NAME[] = "SUU_RUNTIME_WINDOW";
-constexpr DWORD WINDOW_STYLE = WS_OVERLAPPEDWINDOW;
-constexpr DWORD WINDOW_STYLE_EX = WS_EX_OVERLAPPEDWINDOW;
+namespace ring
+{
+static constexpr CHAR WINDOW_CLASS_NAME[] = "RING_OVERLAPPED_WINDOW";
+static constexpr DWORD WINDOW_STYLE = WS_OVERLAPPEDWINDOW;
+static constexpr DWORD WINDOW_STYLE_EX = WS_EX_OVERLAPPEDWINDOW;
 
 [[nodiscard]] static bool InitializeDpiAwareness();
 
 [[nodiscard]] static bool RegisterWindowClass(
-    WNDPROC lpfnWndProc
-);
+    WNDPROC windowProc
+    );
 
 [[nodiscard]] static WindowExtent CalcWindowExtent(
     BOOL hasMenu,
-    const ClientExtent& clientExtent
-);
+    const ClientExtent &clientExtent
+    );
 
 [[nodiscard]] static HWND CreateWindow(
-    const WindowExtent& windowExtent,
+    const WindowExtent &windowExtent,
     std::string_view title,
-    WindowsWindow* owner
-);
+    WindowsWindow *owner
+    );
 
-[[nodiscard]] static bool DoSystemEvents(HWND hWnd);
+[[nodiscard]] static bool DoSystemEvents(HWND windowHandle);
 
 
-WindowsWindow::WindowsWindow(const ClientExtent& clientExtent, std::string_view title)
+WindowsWindow::WindowsWindow(const ClientExtent &clientExtent, std::string_view title)
 {
     if (!InitializeDpiAwareness()) { assert(false); }
     if (!RegisterWindowClass(&WndProc)) { assert(false); }
@@ -40,7 +40,7 @@ WindowsWindow::WindowsWindow(const ClientExtent& clientExtent, std::string_view 
         CalcWindowExtent(FALSE, clientExtent),
         title,
         this
-    );
+        );
     if (!m_hWnd) { assert(false); }
 }
 
@@ -52,6 +52,12 @@ WindowsWindow::~WindowsWindow()
 bool WindowsWindow::Update()
 {
     return DoSystemEvents(m_hWnd);
+}
+
+void WindowsWindow::SetTitle(std::string_view title)
+{
+    ::SetWindowTextA(m_hWnd, title.data());
+    if (::GetLastError()) { assert(false); }
 }
 
 std::string WindowsWindow::GetTitle() const
@@ -67,10 +73,10 @@ ClientExtent WindowsWindow::GetClientExtent() const
     RECT rect = {};
     if (!::GetClientRect(m_hWnd, &rect)) { assert(false); }
 
-    return ClientExtent(
+    return {
         static_cast<std::uint32_t>(rect.right - rect.left),
         static_cast<std::uint32_t>(rect.bottom - rect.top)
-    );
+    };
 }
 
 WindowExtent WindowsWindow::GetWindowExtent() const
@@ -78,29 +84,29 @@ WindowExtent WindowsWindow::GetWindowExtent() const
     RECT rect = {};
     if (!::GetWindowRect(m_hWnd, &rect)) { assert(false); }
 
-    return WindowExtent(
+    return {
         static_cast<std::uint32_t>(rect.right - rect.left),
         static_cast<std::uint32_t>(rect.bottom - rect.top)
-    );
+    };
 }
 
 LRESULT CALLBACK WindowsWindow::WndProc(
-    HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
-)
+    const HWND windowHandle, const UINT msg, const WPARAM wParam, const LPARAM lParam
+    )
 {
-    if (Msg == WM_CREATE)
+    if (msg == WM_CREATE)
     {
         const LPCREATESTRUCTA createStruct = reinterpret_cast<LPCREATESTRUCTA>(lParam);
-        ::SetWindowLongPtrA(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(createStruct->lpCreateParams));
+        ::SetWindowLongPtrA(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(createStruct->lpCreateParams));
         if (::GetLastError()) { assert(false); }
         return 0;
     }
 
-    switch (Msg)
+    switch (msg)
     {
     case WM_CLOSE:
     {
-        WindowsWindow* self = reinterpret_cast<WindowsWindow*>(::GetWindowLongPtrA(hWnd, GWLP_USERDATA));
+        WindowsWindow *const self = reinterpret_cast<WindowsWindow *>(::GetWindowLongPtrA(windowHandle, GWLP_USERDATA));
         if (::GetLastError()) { assert(false); }
         assert(self);
         self->Destroy();
@@ -110,9 +116,12 @@ LRESULT CALLBACK WindowsWindow::WndProc(
     case WM_DESTROY:
         ::PostQuitMessage(0);
         break;
+
+    default:
+        break;
     }
 
-    return ::DefWindowProcA(hWnd, Msg, wParam, lParam);
+    return ::DefWindowProcA(windowHandle, msg, wParam, lParam);
 }
 
 void WindowsWindow::Destroy()
@@ -130,15 +139,14 @@ void WindowsWindow::Destroy()
     return ::SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE) == TRUE;
 }
 
-[[nodiscard]] static bool GetWindowClassInfo(WNDCLASSEX& windowClassEX, HINSTANCE hInstance)
+[[nodiscard]] static bool GetWindowClassInfo(WNDCLASSEX &windowClassEx, const HINSTANCE hInstance)
 {
-    bool result = ::GetClassInfoEx(hInstance, WINDOW_CLASS_NAME, &windowClassEX) != 0;
-    return result;
+    return ::GetClassInfoEx(hInstance, WINDOW_CLASS_NAME, &windowClassEx) != 0;
 }
 
-[[nodiscard]] static HICON LoadApplicationIcon(const TCHAR* iconName, HINSTANCE hInstance, int iconSize)
+[[nodiscard]] static HICON LoadApplicationIcon(const TCHAR *iconName, const HINSTANCE hInstance, const int iconSize)
 {
-    HICON result = reinterpret_cast<HICON>(
+    const HICON result = static_cast<HICON>(
         ::LoadImageA(
             hInstance,
             iconName,
@@ -151,33 +159,31 @@ void WindowsWindow::Destroy()
 }
 
 [[nodiscard]] static bool RegisterWindowClass(
-    WNDPROC lpfnWndProc)
+    const WNDPROC windowProc)
 {
-    constexpr int largeIconSize = 64;
-    constexpr int smallIconSize = 16;
-
     // 拡張ウィンドウクラスの設定
-    WNDCLASSEXA windowClassEX = {};
+    WNDCLASSEXA windowClassEx = {};
 
-    const HINSTANCE hInstance = ::GetModuleHandleA(nullptr);
-
-    if (!GetWindowClassInfo(windowClassEX, hInstance))
+    if (const HINSTANCE hInstance = ::GetModuleHandleA(nullptr); !GetWindowClassInfo(windowClassEx, hInstance))
     {
-        windowClassEX.cbSize = sizeof(WNDCLASSEX);
-        windowClassEX.style = CS_OWNDC;
-        windowClassEX.lpfnWndProc = lpfnWndProc;
-        windowClassEX.cbClsExtra = 0;
-        windowClassEX.cbWndExtra = 0;
-        windowClassEX.hInstance = hInstance;
-        windowClassEX.hIcon = LoadApplicationIcon(TEXT(""), hInstance, largeIconSize);
-        windowClassEX.hIconSm = LoadApplicationIcon(TEXT(""), hInstance, smallIconSize);
-        windowClassEX.hCursor = NULL;
-        windowClassEX.hbrBackground = (HBRUSH)::GetStockObject(GRAY_BRUSH);
-        windowClassEX.lpszMenuName = NULL;
-        windowClassEX.lpszClassName = WINDOW_CLASS_NAME;
+        constexpr int smallIconSize = 16;
+        constexpr int largeIconSize = 64;
+
+        windowClassEx.cbSize = sizeof(WNDCLASSEX);
+        windowClassEx.style = CS_OWNDC;
+        windowClassEx.lpfnWndProc = windowProc;
+        windowClassEx.cbClsExtra = 0;
+        windowClassEx.cbWndExtra = 0;
+        windowClassEx.hInstance = hInstance;
+        windowClassEx.hIcon = LoadApplicationIcon(TEXT(""), hInstance, largeIconSize);
+        windowClassEx.hIconSm = LoadApplicationIcon(TEXT(""), hInstance, smallIconSize);
+        windowClassEx.hCursor = nullptr;
+        windowClassEx.hbrBackground = static_cast<HBRUSH>(::GetStockObject(GRAY_BRUSH));
+        windowClassEx.lpszMenuName = nullptr;
+        windowClassEx.lpszClassName = WINDOW_CLASS_NAME;
     }
 
-    if (!::RegisterClassExA(&windowClassEX))
+    if (!::RegisterClassExA(&windowClassEx))
     {
         return false;
     }
@@ -186,9 +192,9 @@ void WindowsWindow::Destroy()
 }
 
 [[nodiscard]] static WindowExtent CalcWindowExtent(
-    BOOL hasMenu,
-    const ClientExtent& clientExtent
-)
+    const BOOL hasMenu,
+    const ClientExtent &clientExtent
+    )
 {
     RECT rect = {
         0,
@@ -206,11 +212,11 @@ void WindowsWindow::Destroy()
 }
 
 [[nodiscard]] static HWND CreateWindow(
-    const WindowExtent& windowExtent,
-    std::string_view title,
-    WindowsWindow* owner)
+    const WindowExtent &windowExtent,
+    const std::string_view title,
+    WindowsWindow *owner)
 {
-    HWND hWnd = ::CreateWindowExA(
+    const HWND windowHandle = ::CreateWindowExA(
         WINDOW_STYLE_EX,
         WINDOW_CLASS_NAME,
         title.data(),
@@ -222,32 +228,44 @@ void WindowsWindow::Destroy()
         nullptr, // ParentWindow
         nullptr, // MenuHandle
         ::GetModuleHandleA(nullptr),
-        reinterpret_cast<LPVOID>(owner)
-    );
+        owner
+        );
 
-    assert(hWnd);
-
-    ::SetLastError(0);
-    ::ShowWindow(hWnd, SW_SHOWNORMAL);
-    if (::GetLastError()) { ::DestroyWindow(hWnd); assert(false); }
+    assert(windowHandle);
 
     ::SetLastError(0);
-    ::UpdateWindow(hWnd);
-    if (::GetLastError()) { ::DestroyWindow(hWnd); assert(false); }
+    ::ShowWindow(windowHandle, SW_SHOWNORMAL);
+    if (::GetLastError())
+    {
+        ::DestroyWindow(windowHandle);
+        assert(false);
+    }
 
     ::SetLastError(0);
-    ::SetFocus(hWnd);
-    if (::GetLastError()) { ::DestroyWindow(hWnd); assert(false); }
+    ::UpdateWindow(windowHandle);
+    if (::GetLastError())
+    {
+        ::DestroyWindow(windowHandle);
+        assert(false);
+    }
 
-    return hWnd;
+    ::SetLastError(0);
+    ::SetFocus(windowHandle);
+    if (::GetLastError())
+    {
+        ::DestroyWindow(windowHandle);
+        assert(false);
+    }
+
+    return windowHandle;
 }
 
-[[nodiscard]] static bool DoSystemEvents(HWND hWnd)
+[[nodiscard]] static bool DoSystemEvents(const HWND windowHandle)
 {
-    if (::IsWindow(hWnd) != TRUE) { return false; }
+    if (::IsWindow(windowHandle) != TRUE) { return false; }
 
-    MSG msg = { 0 };
-    while (::PeekMessageA(&msg, hWnd, 0, 0, PM_REMOVE) != 0)
+    MSG msg = {};
+    while (::PeekMessageA(&msg, windowHandle, 0, 0, PM_REMOVE) != 0)
     {
         ::TranslateMessage(&msg);
         ::DispatchMessageA(&msg);

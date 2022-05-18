@@ -3,7 +3,7 @@
 
 TEST(Window, Property)
 {
-    const ring::Window window({ 640, 480 }, "Test_Window");
+    ring::Window window({ 640, 480 }, "Test_Window");
 
     EXPECT_EQ("Test_Window", window.GetTitle());
 
@@ -14,4 +14,7 @@ TEST(Window, Property)
     const ring::WindowExtent windowExtent = window.GetWindowExtent();
     EXPECT_LE(clientExtent.Width(), windowExtent.Width());
     EXPECT_LE(clientExtent.Height(), windowExtent.Height());
+
+    window.SetTitle("Test_Window_Changed");
+    EXPECT_EQ("Test_Window_Changed", window.GetTitle());
 }

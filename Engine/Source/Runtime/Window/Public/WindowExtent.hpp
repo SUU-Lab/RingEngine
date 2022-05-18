@@ -4,13 +4,16 @@
 
 namespace ring {
 
+/**
+ * \brief Bounding extent of window
+ */
 class WindowExtent
 {
 public:
-    WindowExtent(const std::uint32_t width, const std::uint32_t height);
+    WindowExtent(std::uint32_t width, std::uint32_t height);
 
-    std::uint32_t Width() const;
-    std::uint32_t Height() const;
+    [[nodiscard]] std::uint32_t Width() const;
+    [[nodiscard]] std::uint32_t Height() const;
 
 private:
     const std::uint32_t width_;

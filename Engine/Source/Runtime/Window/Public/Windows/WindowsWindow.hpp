@@ -7,23 +7,34 @@
 
 namespace ring {
 
+/**
+ * \brief Window class for WindowsDesktop (Win32 API)
+ */
 class WindowsWindow
 {
 public:
     WindowsWindow(const ClientExtent& clientExtent, std::string_view title);
     ~WindowsWindow();
+    
+    WindowsWindow(const WindowsWindow&) = delete;
+    WindowsWindow(WindowsWindow &&) = delete;
 
-    bool Update();
+    void operator=(const WindowsWindow &) = delete;
+    void operator=(WindowsWindow &&) = delete;
 
-    std::string GetTitle() const;
+    [[nodiscard]] bool Update();
 
-    ClientExtent GetClientExtent() const;
+    void SetTitle(std::string_view title);
 
-    WindowExtent GetWindowExtent() const;
+    [[nodiscard]] std::string GetTitle() const;
+
+    [[nodiscard]] ClientExtent GetClientExtent() const;
+
+    [[nodiscard]] WindowExtent GetWindowExtent() const;
 
 private:
     static LRESULT CALLBACK WndProc(
-        HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
+        HWND windowHandle, UINT msg, WPARAM wParam, LPARAM lParam
     );
 
     void Destroy();
