@@ -55,5 +55,9 @@ if (X11_FOUND)
     target_link_libraries(${TARGET_NAME} PRIVATE X11::X11)
 endif()
 
+
+if(${RING_BUILD_TEST})
+    add_subdirectory(Tests)
+endif()
+
 add_subdirectory(Samples)
-add_subdirectory(Tests)
