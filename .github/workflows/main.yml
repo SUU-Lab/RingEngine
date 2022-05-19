@@ -1,9 +1,9 @@
 name: Main
 on:
   push:
-    branches: [ main, test_workflow ]
+    branches: [ main, develop, test_workflow ]
   pull_request:
-    branches: [ main, test_workflow ]
+    branches: [ main, develop, test_workflow ]
   workflow_dispatch:
 
 jobs:
