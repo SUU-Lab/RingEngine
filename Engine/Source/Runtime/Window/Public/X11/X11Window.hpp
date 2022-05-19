@@ -6,7 +6,7 @@
 #include <string>
 #include <X11/Xlib.h>
 
-namespace Ring {
+namespace ring {
 
 class X11Window
 {
@@ -14,15 +14,15 @@ public:
     X11Window(const ClientExtent& clientExtent, std::string_view title);
     ~X11Window();
 
-    bool Update();
+    [[nodiscard]] bool Update();
 
     void SetTitle(std::string_view title);
 
-    std::string GetTitle() const;
+    [[nodiscard]] std::string GetTitle() const;
 
-    ClientExtent GetClientExtent() const;
+    [[nodiscard]] ClientExtent GetClientExtent() const;
 
-    WindowExtent GetWindowExtent() const;
+    [[nodiscard]] WindowExtent GetWindowExtent() const;
 
 private:
     void Destroy();
@@ -33,4 +33,4 @@ private:
 
 typedef X11Window Window;
 
-} // namespace Ring
+} // namespace ring

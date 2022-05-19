@@ -1,10 +1,10 @@
 #include "Runtime.hpp"
 
-namespace Ring {
+namespace ring {
 
 std::string EngineName()
 {
     return "RingEngine";
 }
 
-} // namespace Ring
+} // namespace ring
