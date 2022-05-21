@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 3.20)
 
-enable_testing()
+if(DEFINED RING_BUILD_TEST)
+    enable_testing()
+endif()
 
 project(Ring LANGUAGES C CXX)
 
-add_subdirectory(ThirdParty)
+if(${RING_BUILD_TEST})
+    add_subdirectory(ThirdParty)
+endif()
+
 add_subdirectory(Runtime)
