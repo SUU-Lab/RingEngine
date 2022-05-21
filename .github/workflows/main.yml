@@ -49,7 +49,7 @@ jobs:
         run: .\Build.bat ${{ matrix.platform }} ${{ matrix.configuration }} ${{ matrix.cxx_standard }}
 
       - name: Test
-        working-directory: .\Engine\Build\Windows\build
+        working-directory: .\Engine\Build\Windows\
         run: .\Test.bat ${{ matrix.platform }} ${{ matrix.configuration }} ${{ matrix.cxx_standard }}
 
   linux:
@@ -68,7 +68,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Update Submodules
+        run: git submodule update --init --recursive
 
       - name: Install package
         run: |

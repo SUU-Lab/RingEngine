@@ -15,7 +15,7 @@ set TEST_RESULT=1
 
 @rem %1 : platform x86 x64
 @rem %2 : configuration Debug Release
-@rem %3 : cxx_standard 14 17 20
+@rem %3 : cxx_standard 17 20
 if "%1" == "" if "%2" == "" if "%3" == "" (
 	call :Func_Test x86 Debug 20
 	call :Func_Test x86 Release 20
@@ -35,7 +35,7 @@ if %TEST_RESULT% equ 0 (
 @rem ########## Func_Test ##########
 :Func_Test
 
-echo ---------- Test %1 %2 ----------
+echo ---------- Test %1 %2 %3 ----------
 set BUILD_TARGET=%1
 set BUILD_CONFIGURATION=%2
 set CXX_STANDARD=%3
