@@ -94,7 +94,8 @@ jobs:
           -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cxx }} \
           -DCMAKE_C_COMPILER=${{ matrix.compiler.cc }} \
           -DCMAKE_CXX_STANDARD=${{ matrix.cxx_standard }} \
-          -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} \
+          #-DRING_BUILD_TEST=true
 
       - name: Build
         working-directory: ./Engine/Build/Linux
@@ -104,4 +105,5 @@ jobs:
       - name: Test
         working-directory: ./Engine/Build/Linux/build
         run: |
-          xvfb-run ctest -j 4 -C ${{ matrix.configuration }}
+          xvfb-run ctest -j 4 -C ${{ matrix.configuration }} && touch ./SUCCESS.txt
+          cat ./SUCCESS.txt
