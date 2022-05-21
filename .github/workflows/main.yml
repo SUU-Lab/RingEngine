@@ -70,6 +70,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Install package
+        run: |
+          sudo apt-get install ninja-build
+
       - name: Make build directory
         working-directory: ./Engine/Build
         run: |
