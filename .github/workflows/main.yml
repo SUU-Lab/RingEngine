@@ -105,5 +105,5 @@ jobs:
       - name: Test
         working-directory: ./Engine/Build/Linux/build
         run: |
-          xvfb-run ctest -j 4 -C ${{ matrix.configuration }} && touch ./SUCCESS.txt
+          xvfb-run echo `ctest -j 4 -C ${{ matrix.configuration }} && touch ./SUCCESS.txt`
           cat ./SUCCESS.txt
