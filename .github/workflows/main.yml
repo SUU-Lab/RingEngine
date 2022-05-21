@@ -104,4 +104,4 @@ jobs:
       - name: Test
         working-directory: ./Engine/Build/Linux/build
         run: |
-          ctest -j 4 -C ${{ matrix.configuration }}
+          xvfb-run ctest -j 4 -C ${{ matrix.configuration }}
