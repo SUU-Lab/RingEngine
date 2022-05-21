@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-2022, windows-2019]
-        cxx_standard: [14, 17, 20]
+        cxx_standard: [17, 20]
         configuration: [Debug, Release]
         platform: [x64, x86]
     steps:
@@ -63,7 +63,7 @@ jobs:
           - { cc: "clang-12", cxx: "clang++-12" }
           - { cc: "clang-11", cxx: "clang++-11" }
           - { cc: "clang-10", cxx: "clang++-10" }
-        cxx_standard: [11, 14, 17, 20]
+        cxx_standard: [17, 20]
         configuration: [Debug, Release]
 
     steps:
