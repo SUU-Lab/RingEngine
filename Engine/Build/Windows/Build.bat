@@ -20,14 +20,15 @@ set BUILD_RESULT=1
 
 @rem %1 : platform x86 x64
 @rem %2 : configuration Debug Release
-if "%1" == "" if "%2" == "" (
-	call :Func_Build x86 Debug
-	call :Func_Build x86 Release
-	call :Func_Build x64 Debug
-	call :Func_Build x64 Release
+@rem %3 : cxx_standard 17 20
+if "%1" == "" if "%2" == "" if "%3" == "" (
+	call :Func_Build x86 Debug 20
+	call :Func_Build x86 Release 20
+	call :Func_Build x64 Debug 20
+	call :Func_Build x64 Release 20
 )
-if not "%1" == "" if not "%2" == "" (
-	call :Func_Build %1 %2
+if not "%1" == "" if not "%2" == "" if not "%3" == "" (
+	call :Func_Build %1 %2 %3
 )
 
 if %BUILD_RESULT% equ 0 (
@@ -44,7 +45,8 @@ setlocal
 echo ---------- Build %1 %2 ----------
 set BUILD_TARGET=%1
 set BUILD_CONFIGURATION=%2
-set BUILD_DIR=build\%BUILD_TARGET%\%BUILD_CONFIGURATION%
+set CXX_STANDARD=%3
+set BUILD_DIR=build\%BUILD_TARGET%\%BUILD_CONFIGURATION%\%CXX_STANDARD%
 
 if not exist %BUILD_DIR% (
 	md %BUILD_DIR%
@@ -55,11 +57,12 @@ call "%VS_INSTALL_PATH%\VC\Auxiliary\Build\vcvarsall.bat" %BUILD_TARGET%
 
 echo ---------- Generating ----------
 cmake.exe ^
--H%RING_ENGINE_SOURCE_ROOT% ^
 -GNinja ^
+-H%RING_ENGINE_SOURCE_ROOT% ^
+-B%BUILD_DIR% ^
+-DCMAKE_CXX_STANDARD=%CXX_STANDARD% ^
 -DCMAKE_BUILD_TYPE=%BUILD_CONFIGURATION% ^
--DRING_BUILD_TEST=true ^
--B%BUILD_DIR%
+-DRING_BUILD_TEST=true
 
 if %ERRORLEVEL% neq 0 (
 	goto :Func_Build_FAILED
