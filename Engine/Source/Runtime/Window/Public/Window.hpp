@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifdef RING_PLATFORM_WINDOWS
 
