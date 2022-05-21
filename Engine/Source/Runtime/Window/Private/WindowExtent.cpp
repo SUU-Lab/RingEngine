@@ -1,4 +1,4 @@
-#include "WindowExtent.hpp"
+﻿#include "WindowExtent.hpp"
 
 namespace ring {
 

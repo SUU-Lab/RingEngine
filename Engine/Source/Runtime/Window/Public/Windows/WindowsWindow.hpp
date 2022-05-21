@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Windows/Windows.hpp"
 #include "ClientExtent.hpp"

@@ -1,4 +1,4 @@
-#include "Windows/WindowsWindow.hpp"
+ï»¿#include "Windows/WindowsWindow.hpp"
 #include <cassert>
 
 #ifdef CreateWindow
@@ -161,7 +161,7 @@ void WindowsWindow::Destroy()
 [[nodiscard]] static bool RegisterWindowClass(
     const WNDPROC windowProc)
 {
-    // Šg’£ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ìİ’è
+    // æ‹¡å¼µã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®è¨­å®š
     WNDCLASSEXA windowClassEx = {};
 
     if (const HINSTANCE hInstance = ::GetModuleHandleA(nullptr); !GetWindowClassInfo(windowClassEx, hInstance))
