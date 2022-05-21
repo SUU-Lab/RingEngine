@@ -23,5 +23,8 @@ if(MSVC)
     target_compile_options(${TARGET_NAME} PUBLIC "/Zc:__cplusplus")
 endif()
 
-add_subdirectory(Tests)
+if(${RING_BUILD_TEST})
+    add_subdirectory(Tests)
+endif()
+
 add_subdirectory(Window)

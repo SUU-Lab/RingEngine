@@ -4,9 +4,14 @@ if(NOT "${CMAKE_CXX_STANDARD}")
   set(CMAKE_CXX_STANDARD 20)
 endif()
 
-enable_testing()
+if(DEFINED RING_BUILD_TEST)
+    enable_testing()
+endif()
 
 project(Ring LANGUAGES C CXX)
 
-add_subdirectory(ThirdParty)
+if(${RING_BUILD_TEST})
+    add_subdirectory(ThirdParty)
+endif()
+
 add_subdirectory(Runtime)
