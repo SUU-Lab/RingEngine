@@ -20,4 +20,4 @@ target_link_libraries(
 )
 
 include(GoogleTest)
-gtest_discover_tests(${TARGET_NAME})
+gtest_discover_tests(${TARGET_NAME} DISCOVERY_TIMEOUT 20)

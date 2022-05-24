@@ -12,4 +12,4 @@ set_target_properties(${TARGET_NAME} PROPERTIES FOLDER "Tests")
 target_link_libraries(${TARGET_NAME} PRIVATE Ring::Runtime gtest_main gtest)
 
 include(GoogleTest)
-gtest_discover_tests(${TARGET_NAME})
+gtest_discover_tests(${TARGET_NAME} DISCOVERY_TIMEOUT 20)
