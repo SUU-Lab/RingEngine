@@ -27,4 +27,8 @@ if(${RING_BUILD_TEST})
     add_subdirectory(Tests)
 endif()
 
-add_subdirectory(Window)
+add_subdirectory(Launch)
+
+if(NOT ANDROID)
+    add_subdirectory(Window)
+endif()
