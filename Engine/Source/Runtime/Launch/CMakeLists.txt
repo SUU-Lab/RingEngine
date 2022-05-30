@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 if(ANDROID)
-    # Windows ‚Å”­¶‚·‚é Invalid escape sequence ‚ğ‰ñ”ğ‚·‚é
+    # Windows ã§ç™ºç”Ÿã™ã‚‹ Invalid escape sequence ã‚’å›é¿ã™ã‚‹
     string(REPLACE "\\" "/" NDK_DIR ${ANDROID_NDK})
 
     add_library(
@@ -10,7 +10,7 @@ if(ANDROID)
         "${NDK_DIR}/sources/android/native_app_glue/android_native_app_glue.c"
     )
 
-    # project() ƒRƒ}ƒ“ƒh‚æ‚è‚àè‘O‚ÅŒÄ‚Ño‚³‚È‚¢‚ÆƒŠƒ“ƒN‚É¸”s‚·‚éB
+    # project() ã‚³ãƒãƒ³ãƒ‰ã‚ˆã‚Šã‚‚æ‰‹å‰ã§å‘¼ã³å‡ºã•ãªã„ã¨ãƒªãƒ³ã‚¯ã«å¤±æ•—ã™ã‚‹ã€‚
     set(CMAKE_SHARED_LINKER_FLAGS
             "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate"
     )
