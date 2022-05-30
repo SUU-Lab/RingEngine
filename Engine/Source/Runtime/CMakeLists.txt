@@ -24,6 +24,16 @@ if(MSVC)
 endif()
 
 if(${RING_BUILD_TEST})
+    if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
+        string(REPLACE "/" "\\" RING_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
+    else()
+        string(REPLACE "\\" "/" RING_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
+    endif()
+    add_custom_command(
+            TARGET ${TARGET_NAME}
+            POST_BUILD
+            COMMAND echo ${RING_CMAKE_BINARY_DIR} > ${CMAKE_SOURCE_DIR}/../Build/cmake_binary_dir.txt
+    )
     add_subdirectory(Tests)
 endif()
 

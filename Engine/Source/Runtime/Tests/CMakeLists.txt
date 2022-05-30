@@ -22,8 +22,7 @@ if (ANDROID)
     set_target_properties(
             ${TARGET_NAME}
             PROPERTIES
-            CROSSCOMPILING_EMULATOR "C:/Users/bullets_2019_0305/AppData/Local/Android/Sdk/platform-tools/adb.exe"
-            EXTRA_ARGS shell
+            CROSSCOMPILING_EMULATOR ${CMAKE_SOURCE_DIR}/../Build/Android/Tools/TestRunner.bat
     )
 endif()
 

@@ -13,14 +13,33 @@ set TARGET_TEST_FILENAME=%1
 call :Func_GetFileName %TARGET_TEST_FILENAME%
 
 set SUCCEEDED_FILENAME=%TARGET_TEST_FILENAME%_SUCCEEDED.txt
-set DST_DIR=/data/local/tmp/ring/test
+set DST_DIR=/data/local/tmp/ring/%TARGET_TEST_FILENAME%
 
-adb push %TEST_EXECUTABLE_FILE% %DST_DIR%/%TARGET_TEST_FILENAME%
-adb shell chmod 775 %DST_DIR%/%TARGET_TEST_FILENAME%
-adb shell "%DST_DIR%/%TARGET_TEST_FILENAME% && touch %DST_DIR%/%SUCCEEDED_FILENAME%"
-adb pull %DST_DIR%/%SUCCEEDED_FILENAME% TestResult\%SUCCEEDED_FILENAME%
 
-if not exist TestResult\%SUCCEEDED_FILENAME% (
+@shift
+
+if "%1"=="" goto :ARGS_END
+set ARGS=%1
+
+@shift
+
+:ARGS_SHIFT
+if "%1"=="" goto :ARGS_END
+set ARGS=%ARGS% %1
+@shift
+goto :ARGS_SHIFT
+:ARGS_END
+
+
+adb push %TEST_EXECUTABLE_FILE% %DST_DIR%/%TARGET_TEST_FILENAME% > nul
+adb shell "cd %DST_DIR% && chmod 775 ./%TARGET_TEST_FILENAME%" > nul
+adb shell "cd %DST_DIR% && ./%TARGET_TEST_FILENAME% %ARGS% > output.txt && touch %SUCCEEDED_FILENAME%" > nul
+adb pull %DST_DIR% TestResult > nul
+adb shell rm -rf %DST_DIR% > nul
+
+type TestResult\%TARGET_TEST_FILENAME%\output.txt
+
+if not exist TestResult\%TARGET_TEST_FILENAME%\%SUCCEEDED_FILENAME% (
 	goto :TEST_FAILED
 ) else (
 	goto :TEST_SUCCEEDED
@@ -31,13 +50,13 @@ if not exist TestResult\%SUCCEEDED_FILENAME% (
 exit /b
 
 :TEST_SUCCEEDED
+del /Q TestResult\%TARGET_TEST_FILENAME%
 popd
 endlocal
-echo "TEST SUCCEEDED!!"
 exit /b 0
 
 :TEST_FAILED
+del /Q TestResult\%TARGET_TEST_FILENAME%
 popd
 endlocal
-echo "TEST FAILED!!"
 exit /b -1
