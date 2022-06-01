@@ -29,11 +29,10 @@ if(${RING_BUILD_TEST})
     else()
         string(REPLACE "\\" "/" RING_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
     endif()
-    add_custom_command(
-            TARGET ${TARGET_NAME}
-            POST_BUILD
-            COMMAND echo ${RING_CMAKE_BINARY_DIR} > ${CMAKE_SOURCE_DIR}/../Build/cmake_binary_dir.txt
-    )
+    file(
+        WRITE
+        ${CMAKE_SOURCE_DIR}/../Build/Android/${ANDROID_ABI}/cmake_binary_dir.txt
+        ${CMAKE_SOURCE_DIR}/../Build/Android/${ANDROID_ABI})
     add_subdirectory(Tests)
 endif()
 

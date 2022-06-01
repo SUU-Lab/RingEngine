@@ -2,7 +2,7 @@
 setlocal
 
 set CURRENT_DIR=%~dp0
-pushd %CURRENT_DIR%\..\..\
+pushd %CURRENT_DIR%\..\%1
 
 set BUILD_DIR=
 
@@ -13,7 +13,8 @@ for /f %%A in (cmake_binary_dir.txt) do (
 pushd %BUILD_DIR%
 echo %BUILD_DIR%
 
-ctest
+shift
+ctest %*
 
 if %ERRORLEVEL% equ 0 (
 	goto :TEST_SUCCEEDED

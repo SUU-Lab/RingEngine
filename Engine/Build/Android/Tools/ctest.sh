@@ -3,12 +3,10 @@
 DIRNAME=$(dirname "$0")
 CURRENT=$(cd "$DIRNAME" || exit 1;pwd)
 
-echo "===== PUSHD TOOL DIR ====="
-pushd "$CURRENT/../../" || exit 1
+pushd "$CURRENT/../$1" > test_log.txt || exit 1
 
 cleanup() {
-    echo "===== cleanup() ====="
-    popd || exit 1
+    popd >> test_log.txt || exit 1
 }
 
 # read cmake_binary_dir.txt
@@ -18,17 +16,14 @@ do
     BUILD_DIR="$BUILD_DIR$LINE"
 done < cmake_binary_dir.txt
 
-echo BUILD_DIR="$BUILD_DIR"
+echo BUILD_DIR="$BUILD_DIR" >> test_log.txt
 
-echo "===== PUSHD BUILD DIR ====="
-pushd "$BUILD_DIR" || exit 1
+pushd "$BUILD_DIR" >> test_log.txt || exit 1
 
-echo "===== CTEST ====="
-
+shift
 ctest "$@"
 
-echo "===== POPD BUILD DIR ====="
-popd || exit 1
+popd >> test_log.txt || exit 1
 
 cleanup || exit 1
 
