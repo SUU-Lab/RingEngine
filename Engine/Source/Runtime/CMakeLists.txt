@@ -24,7 +24,20 @@ if(MSVC)
 endif()
 
 if(${RING_BUILD_TEST})
+    if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
+        string(REPLACE "/" "\\" RING_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
+    else()
+        string(REPLACE "\\" "/" RING_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
+    endif()
+    file(
+        WRITE
+        ${CMAKE_SOURCE_DIR}/../Build/Android/${ANDROID_ABI}/cmake_binary_dir.txt
+        ${RING_CMAKE_BINARY_DIR})
     add_subdirectory(Tests)
 endif()
 
-add_subdirectory(Window)
+add_subdirectory(Launch)
+
+if(NOT ANDROID)
+    add_subdirectory(Window)
+endif()

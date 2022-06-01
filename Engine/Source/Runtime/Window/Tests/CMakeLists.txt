@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 set(TARGET_NAME Ring_Window_Test)
 
+message("TEST: ${TARGET_NAME}")
+
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 add_executable(${TARGET_NAME}
@@ -20,4 +22,4 @@ target_link_libraries(
 )
 
 include(GoogleTest)
-gtest_discover_tests(${TARGET_NAME})
+gtest_discover_tests(${TARGET_NAME} DISCOVERY_TIMEOUT 20)
