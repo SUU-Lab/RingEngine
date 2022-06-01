@@ -40,4 +40,5 @@ include(GoogleTest)
 gtest_discover_tests(
         ${TARGET_NAME}
         DISCOVERY_TIMEOUT 20
+        DISCOVERY_MODE PRE_TEST
 )
