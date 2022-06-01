@@ -32,7 +32,7 @@ if(${RING_BUILD_TEST})
     file(
         WRITE
         ${CMAKE_SOURCE_DIR}/../Build/Android/${ANDROID_ABI}/cmake_binary_dir.txt
-        ${CMAKE_SOURCE_DIR}/../Build/Android/${ANDROID_ABI})
+        ${RING_CMAKE_BINARY_DIR})
     add_subdirectory(Tests)
 endif()
 
