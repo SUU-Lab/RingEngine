@@ -14,7 +14,7 @@ BUILD_DIR=$(cat cmake_binary_dir.txt)
 pushd "$BUILD_DIR" >> "$CURRENT/test_log.txt" || exit 1
 
 shift
-ctest "$@"
+ctest "$@" || exit 1
 
 popd >> "$CURRENT/test_log.txt" || exit 1
 
