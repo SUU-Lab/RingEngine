@@ -6,11 +6,11 @@
 DIRNAME=$(dirname "$0")
 CURRENT=$(cd "$DIRNAME" || exit 1;pwd)
 
-pushd "$CURRENT" || exit 1
+pushd "$CURRENT" > log.txt || exit 1
 
 cleanup() {
     rm -rf "TestResult/$TARGET_TEST_FILENAME"
-    popd || exit 1
+    popd >> log.txt || exit 1
 }
 
 if [ ! -d "TestResult" ]; then
@@ -32,7 +32,7 @@ do
     ARGS="$ARGS $1"
 done
 
-echo "SHELL=$SHELL" > log.txt
+echo "SHELL=$SHELL" >> log.txt
 echo "ARGS=$ARGS" >> log.txt
 
 cp "$TEST_EXECUTABLE_FILE" .

@@ -190,4 +190,6 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           script: |
+            cat ${{ github.workspace }}/Engine/Build/cmake_binary_dir.txt
             cd ${{ github.workspace }}/Engine/Build/Android/Tools && chmod +x ./ctest.sh && ./ctest.sh -j 4 -C ${{ matrix.configuration }}
+            cat ${{ github.workspace }}/Engine/Build/Android/Tools/log.txt
