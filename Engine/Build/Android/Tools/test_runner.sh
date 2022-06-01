@@ -28,15 +28,31 @@ shift
 ARGS=$1
 while [ "$1" != "" ]
 do
-    ARGS="$ARGS $1"
     shift
+    ARGS="$ARGS $1"
 done
 
-adb push "$TEST_EXECUTABLE_FILE" "$DST_DIR/$TARGET_TEST_FILENAME" > nul
-adb shell "cd $DST_DIR && chmod 775 ./$TARGET_TEST_FILENAME" > nul
-adb shell "cd $DST_DIR && ./$TARGET_TEST_FILENAME $ARGS > output.txt && touch $SUCCEEDED_FILENAME" > nul
-adb pull "$DST_DIR" "TestResult" > nul
-adb shell rm -rf "$DST_DIR" > nul
+echo "SHELL=$SHELL" > log.txt
+echo "ARGS=$ARGS" >> log.txt
+
+cp "$TEST_EXECUTABLE_FILE" .
+
+{
+
+adb push "$TARGET_TEST_FILENAME" "$DST_DIR/$TARGET_TEST_FILENAME"
+
+adb shell "cd $DST_DIR && chmod 775 ./$TARGET_TEST_FILENAME"
+
+adb shell "cd $DST_DIR && ./$TARGET_TEST_FILENAME $ARGS > output.txt && touch $SUCCEEDED_FILENAME"
+
+adb shell ls "/data/local/tmp/ring"
+
+adb pull "$DST_DIR/" "TestResult"
+
+adb shell rm -rf "$DST_DIR"
+
+} >> log.txt
+
 
 cat "TestResult/$TARGET_TEST_FILENAME/output.txt"
 
