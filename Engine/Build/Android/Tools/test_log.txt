@@ -1,1 +1,0 @@
-/mnt/e/GitHub/SUU-Lab/RingEngine/Engine/Build/Android/arm64-v8a /mnt/e/GitHub/SUU-Lab/RingEngine/Engine/Build/Android/Tools
