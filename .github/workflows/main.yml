@@ -190,6 +190,5 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           script: |
-            cd ${{ github.workspace }}/Engine/Build/Android/Tools || exit 1
-            chmod +x ./ctest.sh
-            ./ctest.sh -j 4 -C ${{ matrix.configuration }}
+            chmod +x ${{ github.workspace }}/Engine/Build/Android/Tools/ctest.sh
+            .${{ github.workspace }}/Engine/Build/Android/Tools/ctest.sh -j 4 -C ${{ matrix.configuration }}
