@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.18.1)
 
 if(ANDROID)
     # Windows で発生する Invalid escape sequence を回避する

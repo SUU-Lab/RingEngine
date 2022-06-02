@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.18.1)
 
 message(CMAKE_HOST_SYSTEM_NAME=${CMAKE_HOST_SYSTEM_NAME})
 message(CMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME})
