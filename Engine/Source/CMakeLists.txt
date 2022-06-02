@@ -12,11 +12,38 @@ project(Ring LANGUAGES C CXX)
 
 if(${RING_BUILD_TEST})
     enable_testing()
-    message("enable testing")
-endif()
-
-if(${RING_BUILD_TEST})
     add_subdirectory(ThirdParty)
+    include(GoogleTest)
+
+    function(ring_discover_tests target)
+        if(ANDROID)
+            if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+                set(RING_CROSSCOMPILING_EMULATOR
+                    ${CMAKE_SOURCE_DIR}/../Build/Android/Tools/TestRunner.bat
+                )
+            else()
+                set(RING_CROSSCOMPILING_EMULATOR
+                    ${CMAKE_SOURCE_DIR}/../Build/Android/Tools/test_runner.sh
+                )
+            endif()
+            set_target_properties(
+                ${target}
+                PROPERTIES
+                FOLDER "Tests"
+                CROSSCOMPILING_EMULATOR ${RING_CROSSCOMPILING_EMULATOR}
+            )
+            gtest_discover_tests(
+                ${target}
+                DISCOVERY_TIMEOUT 20
+                DISCOVERY_MODE PRE_TEST
+            )
+        else()
+            gtest_discover_tests(
+                ${target}
+                DISCOVERY_TIMEOUT 20
+            )
+        endif()
+    endfunction()
 endif()
 
 add_subdirectory(Runtime)
