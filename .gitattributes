@@ -1,0 +1,52 @@
+* text=auto
+*.gitattributes              text eol=lf
+*.gitignore                  text eol=lf
+*.gitmodules                 text eol=lf
+
+# scripts
+*.bat                        text eol=crlf encoding=ascii
+*.sh                         text eol=lf
+*.cmake                      text eol=lf
+CMakeLists.txt               text eol=lf
+
+# configs
+*.yml                        text eol=lf
+
+# text
+*.md                         text eol=lf
+LICENSE                      text eol=lf
+
+# source code
+*.c                          text eol=lf
+*.cc                         text eol=lf
+*.cpp                        text eol=lf
+*.cxx                        text eol=lf
+*.ipp                        text eol=lf
+*.h                          text eol=lf
+*.hpp                        text eol=lf
+*.mm                         text eol=lf
+*.m                          text eol=lf
+
+#project file
+*.sln                        text eol=crlf
+*.vcxproj                    text eol=crlf
+*.vcxproj.filters            text eol=crlf
+
+# gradle
+*.gradle                     text eol=lf
+*.pro                        text eol=lf
+gradlew                      text eol=lf
+gradle.properties            text eol=lf
+gradle-wrapper.properties    text eol=lf
+
+# export settings
+.github                      export-ignore
+*.yml                        export-ignore
+.gitignore                   export-ignore
+.gitattributes               export-ignore
+.gitmodules                  export-ignore
+
+# linguist
+*.h                          linguist-language=C++
+*.ipp                        linguist-language=C++
+.github/*                    linguist-documentation
