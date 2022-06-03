@@ -4,15 +4,13 @@ set(TARGET_NAME Ring_Runtime_Test)
 
 project(${TARGET_NAME} LANGUAGES C CXX)
 
-add_executable(
+ring_discover_tests(
+    TARGET
     ${TARGET_NAME}
+    
+    SOURCES
     "Test_Runtime.cpp"
+    
+    LIBRARIES
+    Ring::Runtime
 )
-
-target_link_libraries(
-    ${TARGET_NAME}
-    PRIVATE
-    Ring::Runtime GTest::gtest GTest::gtest_main
-)
-
-ring_discover_tests(${TARGET_NAME})

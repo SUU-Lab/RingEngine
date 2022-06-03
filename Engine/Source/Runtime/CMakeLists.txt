@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.18.1)
 
 set(TARGET_NAME_BASE Runtime)
-
 set(TARGET_NAME Ring_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Ring::${TARGET_NAME_BASE})
 
@@ -9,30 +8,51 @@ if(TARGET ${TARGET_NAME})
     RETURN()
 endif()
 
+# Runtime
 project(${TARGET_NAME} LANGUAGES C CXX)
 
-add_library(${TARGET_NAME}
-    ${PROJECT_SOURCE_DIR}/Private/Runtime.cpp
+# library
+add_library(
+    ${TARGET_NAME}
+
+    STATIC
 )
-add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
 
-target_include_directories(${TARGET_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/Private)
-target_include_directories(${TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/Public)
+# alias
+add_library(
+    ${TARGET_ALIAS_NAME}
 
-if(MSVC)
-    target_compile_options(${TARGET_NAME} PUBLIC "/Zc:__cplusplus")
-endif()
+    ALIAS
+    ${TARGET_NAME}
+)
+
+# sources
+target_sources(
+    ${TARGET_NAME}
+
+    PRIVATE
+    "Private/Runtime.cpp"
+)
+
+# preprocessor macros
+target_compile_definitions(
+    ${TARGET_NAME}
+
+    PUBLIC
+    "$<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>"
+    "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
+    "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
+)
+
+# compile options
+target_compile_options(
+    ${TARGET_NAME}
+
+    PUBLIC
+    "$<$<CXX_COMPILER_ID:MSVC>:/Zc:__cplusplus>"
+)
 
 if(${RING_BUILD_TEST})
-    if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
-        string(REPLACE "/" "\\" RING_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
-    else()
-        string(REPLACE "\\" "/" RING_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
-    endif()
-    file(
-        WRITE
-        ${CMAKE_SOURCE_DIR}/../Build/Android/${ANDROID_ABI}/cmake_binary_dir.txt
-        ${RING_CMAKE_BINARY_DIR})
     add_subdirectory(Tests)
 endif()
 

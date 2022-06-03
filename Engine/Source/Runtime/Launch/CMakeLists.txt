@@ -17,7 +17,6 @@ if(ANDROID)
 endif() # ANDROID
 
 set(TARGET_NAME_BASE Launch)
-
 set(TARGET_NAME Ring_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Ring::${TARGET_NAME_BASE})
 
@@ -25,72 +24,67 @@ if(TARGET ${TARGET_NAME})
     RETURN()
 endif()
 
+# Launch
 project(${TARGET_NAME} LANGUAGES C CXX)
 
-if(ANDROID)
-    add_library(${TARGET_NAME}
-        OBJECT
-        "$<$<PLATFORM_ID:Android>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Android/AndroidMain.cpp>"
-        "$<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Windows/WindowsMain.cpp>"
-        "$<$<PLATFORM_ID:Linux>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Linux/LinuxMain.cpp>"
-    )
+# library
+add_library(
+    ${TARGET_NAME}
 
-    # shared libraries need PIC
-    set_property(TARGET
-        ${TARGET_NAME}
-        PROPERTY POSITION_INDEPENDENT_CODE 1
-    )
-else()
-    add_library(${TARGET_NAME}
-        "$<$<PLATFORM_ID:Android>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Android/AndroidMain.cpp>"
-        "$<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Windows/WindowsMain.cpp>"
-        "$<$<PLATFORM_ID:Linux>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Linux/LinuxMain.cpp>"
-    )
-endif()
-add_library(${TARGET_ALIAS_NAME} ALIAS ${TARGET_NAME})
+    OBJECT
+)
 
+# alias
+add_library(
+    ${TARGET_ALIAS_NAME}
 
+    ALIAS
+    ${TARGET_NAME}
+)
+
+# sources
+target_sources(
+    ${TARGET_NAME}
+
+    PRIVATE
+    "$<$<PLATFORM_ID:Android>:Private/Android/AndroidMain.cpp>"
+    "$<$<PLATFORM_ID:Windows>:Private/Windows/WindowsMain.cpp>"
+    "$<$<PLATFORM_ID:Linux>:Private/Linux/LinuxMain.cpp>"
+)
+
+# include directories
 target_include_directories(
     ${TARGET_NAME}
+
     PRIVATE
-    "${PROJECT_SOURCE_DIR}/Private"
+    "Private"
     "$<$<PLATFORM_ID:Android>:${NDK_DIR}/sources/android/native_app_glue>"
-    PUBLIC
-    "${PROJECT_SOURCE_DIR}/Public"
-)
 
-target_compile_definitions(
-    ${TARGET_NAME}
     PUBLIC
-    "$<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>"
-    "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
-    "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
+    "Public"
 )
-
-if(MSVC)
-    target_compile_options(
-        ${TARGET_NAME}
-        PUBLIC
-        "/Zc:__cplusplus"
-    )
-endif()
 
 if(ANDROID)
     find_library(android-lib android)
-
     find_library(log-lib log)
 
+    # library dependencies
     target_link_libraries(
         ${TARGET_NAME}
+
         PUBLIC
         native_app_glue
-        ${log-lib}
         ${android-lib}
+        ${log-lib}
+    )
+
+    # properties
+    set_target_properties(
+        ${TARGET_NAME}
+
+        PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
     )
 endif() # ANDROID
-
-#if(${RING_BUILD_TEST})
-#    add_subdirectory(Tests)
-#endif()
 
 add_subdirectory(Samples)
