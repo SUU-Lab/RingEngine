@@ -34,6 +34,17 @@ target_sources(
     "Private/Runtime.cpp"
 )
 
+# include directories
+target_include_directories(
+    ${TARGET_NAME}
+
+    PRIVATE
+    "Private"
+
+    PUBLIC
+    "Public"
+)
+
 # preprocessor macros
 target_compile_definitions(
     ${TARGET_NAME}

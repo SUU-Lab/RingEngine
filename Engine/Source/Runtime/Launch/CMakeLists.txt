@@ -64,6 +64,16 @@ target_include_directories(
     "Public"
 )
 
+# preprocessor macros
+target_compile_definitions(
+    ${TARGET_NAME}
+
+    PUBLIC
+    "$<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>"
+    "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
+    "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
+)
+
 if(ANDROID)
     find_library(android-lib android)
     find_library(log-lib log)

@@ -37,6 +37,27 @@ target_sources(
     "$<$<PLATFORM_ID:Linux>:Private/X11/X11Window.cpp>"
 )
 
+# include directories
+target_include_directories(
+    ${TARGET_NAME}
+
+    PRIVATE
+    "Private"
+
+    PUBLIC
+    "Public"
+)
+
+# preprocessor macros
+target_compile_definitions(
+    ${TARGET_NAME}
+
+    PUBLIC
+    "$<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>"
+    "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
+    "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
+)
+
 find_package(X11)
 if (X11_FOUND)
     # library dependencies
