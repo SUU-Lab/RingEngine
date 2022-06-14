@@ -16,32 +16,34 @@ if(${RING_BUILD_TEST})
 
     endif()
 
-    if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
+    if(ANDROID)
+        if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
 
-        string(
-            REPLACE
-            "/"
-            "\\"
-            RING_CMAKE_BINARY_DIR
-            ${CMAKE_BINARY_DIR}
-        )
+            string(
+                REPLACE
+                "/"
+                "\\"
+                RING_CMAKE_BINARY_DIR
+                ${CMAKE_BINARY_DIR}
+            )
 
-    else()
+        else()
 
-        string(
-            REPLACE
-            "\\"
-            "/"
-            RING_CMAKE_BINARY_DIR
-            ${CMAKE_BINARY_DIR}
-        )
+            string(
+                REPLACE
+                "\\"
+                "/"
+                RING_CMAKE_BINARY_DIR
+                ${CMAKE_BINARY_DIR}
+            )
 
+        endif()
+
+        file(
+            WRITE
+            ${CMAKE_SOURCE_DIR}/../Build/Android/${ANDROID_ABI}/cmake_binary_dir.txt
+            ${RING_CMAKE_BINARY_DIR})
     endif()
-
-    file(
-        WRITE
-        ${CMAKE_SOURCE_DIR}/../Build/Android/${ANDROID_ABI}/cmake_binary_dir.txt
-        ${RING_CMAKE_BINARY_DIR})
 
     enable_testing()
 
