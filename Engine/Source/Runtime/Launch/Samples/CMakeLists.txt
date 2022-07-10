@@ -31,6 +31,16 @@ if (ANDROID)
         ALIAS
         ${TARGET_NAME}
     )
+
+    # export "ANativeActivity_onCreate"
+    set_target_properties(
+        ${TARGET_NAME}
+
+        PROPERTIES
+        APPEND_STRING
+        PROPERTY
+        LINK_FLAGS " -u ANativeActivity_onCreate"
+    )
 else()
     # executable
     add_executable(

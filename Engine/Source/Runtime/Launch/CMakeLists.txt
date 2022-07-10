@@ -13,11 +13,6 @@ if(ANDROID)
         STATIC
         "${NDK_DIR}/sources/android/native_app_glue/android_native_app_glue.c"
     )
-
-    # project() コマンドよりも手前で呼び出さないとリンクに失敗する。
-    set(CMAKE_SHARED_LINKER_FLAGS
-            "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate"
-    )
 endif() # ANDROID
 
 set(TARGET_NAME_BASE Launch)

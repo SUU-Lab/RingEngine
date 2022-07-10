@@ -36,7 +36,7 @@ target_sources(
 
     PRIVATE
     "Private/Render.cpp"
- "Samples/Sample_Render.cpp")
+)
 
 # include directories
 target_include_directories(
@@ -71,5 +71,7 @@ if(${RING_BUILD_TEST})
     add_subdirectory(Tests)
 endif()
 
-add_subdirectory(Samples)
+if(NOT ANDROID)
+    add_subdirectory(Samples)
+endif()
 
