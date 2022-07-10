@@ -71,7 +71,7 @@ if(${RING_BUILD_TEST})
     add_subdirectory(Tests)
 endif()
 
-if(NOT ANDROID)
-    add_subdirectory(Samples)
-endif()
+#if(NOT ANDROID)
+#    add_subdirectory(Samples)
+#endif()
 
