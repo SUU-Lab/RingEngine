@@ -1,21 +1,10 @@
 #==============================================================================
-#     Launch
+#     Core
 #==============================================================================
 
 cmake_minimum_required(VERSION 3.18.1)
 
-if(ANDROID)
-    # Windows で発生する Invalid escape sequence を回避する
-    string(REPLACE "\\" "/" NDK_DIR ${ANDROID_NDK})
-
-    add_library(
-        native_app_glue
-        STATIC
-        "${NDK_DIR}/sources/android/native_app_glue/android_native_app_glue.c"
-    )
-endif() # ANDROID
-
-set(TARGET_NAME_BASE Launch)
+set(TARGET_NAME_BASE Core)
 set(TARGET_NAME Ring_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Ring::${TARGET_NAME_BASE})
 
@@ -23,14 +12,14 @@ if(TARGET ${TARGET_NAME})
     RETURN()
 endif()
 
-# Launch
+# Core
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 # library
 add_library(
     ${TARGET_NAME}
 
-    OBJECT
+    STATIC
 )
 
 # alias
@@ -46,9 +35,7 @@ target_sources(
     ${TARGET_NAME}
 
     PRIVATE
-    "$<$<PLATFORM_ID:Android>:Private/Android/AndroidMain.cpp>"
-    "$<$<PLATFORM_ID:Windows>:Private/Windows/WindowsMain.cpp>"
-    "$<$<PLATFORM_ID:Linux>:Private/Linux/LinuxMain.cpp>"
+    "Private/Core.cpp"
 )
 
 # include directories
@@ -57,7 +44,6 @@ target_include_directories(
 
     PRIVATE
     "Private"
-    "$<$<PLATFORM_ID:Android>:${NDK_DIR}/sources/android/native_app_glue>"
 
     PUBLIC
     "Public"
@@ -73,27 +59,20 @@ target_compile_definitions(
     "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
 )
 
-if(ANDROID)
-    find_library(android-lib android)
-    find_library(log-lib log)
-
-    # library dependencies
+if(NOT ANDROID)
     target_link_libraries(
         ${TARGET_NAME}
 
-        PUBLIC
-        native_app_glue
-        ${android-lib}
-        ${log-lib}
+        PRIVATE
+        Ring::Window
     )
+endif()
 
-    # properties
-    set_target_properties(
-        ${TARGET_NAME}
+if(${RING_BUILD_TEST})
+    add_subdirectory(Tests)
+endif()
 
-        PROPERTIES
-        POSITION_INDEPENDENT_CODE 1
-    )
-endif() # ANDROID
+if(NOT ANDROID)
+    add_subdirectory(Window)
+endif()
 
-add_subdirectory(Samples)

@@ -1,3 +1,7 @@
+#==============================================================================
+#     Launch_Samples
+#==============================================================================
+
 cmake_minimum_required(VERSION 3.18.1)
 
 set(TARGET_NAME_BASE Launch)
@@ -17,7 +21,7 @@ if (ANDROID)
         ${TARGET_NAME}
         
         SHARED
-        $<TARGET_OBJECTS:Ring::Launch>
+        $<TARGET_OBJECTS:Ring::${TARGET_NAME_BASE}>
     )
 
     # alias
@@ -27,11 +31,21 @@ if (ANDROID)
         ALIAS
         ${TARGET_NAME}
     )
+
+    # export "ANativeActivity_onCreate"
+    set_target_properties(
+        ${TARGET_NAME}
+
+        PROPERTIES
+        APPEND_STRING
+        PROPERTY
+        LINK_FLAGS " -u ANativeActivity_onCreate"
+    )
 else()
     # executable
     add_executable(
         ${TARGET_NAME}
-        $<TARGET_OBJECTS:Ring::Launch>
+        $<TARGET_OBJECTS:Ring::${TARGET_NAME_BASE}>
     )
 
     # alias
@@ -57,7 +71,7 @@ if (ANDROID)
         ${TARGET_NAME}
 
         PUBLIC
-        Ring::Launch
+        Ring::${TARGET_NAME_BASE}
     )
 else()
     # library dependencies
@@ -65,7 +79,7 @@ else()
         ${TARGET_NAME}
 
         PRIVATE
-        Ring::Launch
+        Ring::${TARGET_NAME_BASE}
     )
 endif()
 

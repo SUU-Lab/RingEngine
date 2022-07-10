@@ -1,10 +1,12 @@
 ﻿#include "Runtime.hpp"
+#include <iostream>
 
 namespace ring {
 
-std::string EngineName()
+int Main()
 {
-    return "RingEngine";
+    std::cout << "ring::Main() is called.\n";
+    return 0;
 }
 
 } // namespace ring

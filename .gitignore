@@ -35,3 +35,5 @@
 
 Engine/Source/out/
 Engine/Build/Windows/build/
+Engine/Build/Android/arm64-v8a/cmake_binary_dir.txt
+Engine/Build/Android/x86_64/cmake_binary_dir.txt
