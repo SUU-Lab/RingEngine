@@ -12,17 +12,14 @@ if(TARGET ${TARGET_NAME})
     RETURN()
 endif()
 
-# Core
 project(${TARGET_NAME} LANGUAGES C CXX)
 
-# library
 add_library(
     ${TARGET_NAME}
 
     STATIC
 )
 
-# alias
 add_library(
     ${TARGET_ALIAS_NAME}
 
@@ -30,7 +27,6 @@ add_library(
     ${TARGET_NAME}
 )
 
-# sources
 target_sources(
     ${TARGET_NAME}
 
@@ -38,7 +34,6 @@ target_sources(
     "Private/Core.cpp"
 )
 
-# include directories
 target_include_directories(
     ${TARGET_NAME}
 
@@ -49,7 +44,6 @@ target_include_directories(
     "Public"
 )
 
-# preprocessor macros
 target_compile_definitions(
     ${TARGET_NAME}
 
@@ -60,19 +54,20 @@ target_compile_definitions(
 )
 
 if(NOT ANDROID)
+
     target_link_libraries(
         ${TARGET_NAME}
 
         PRIVATE
         Ring::Window
     )
+
 endif()
 
 if(${RING_BUILD_TEST})
+
     add_subdirectory(Tests)
+
 endif()
 
-if(NOT ANDROID)
-    add_subdirectory(Window)
-endif()
-
+add_subdirectory(Window)

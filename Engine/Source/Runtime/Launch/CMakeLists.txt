@@ -23,17 +23,14 @@ if(TARGET ${TARGET_NAME})
     RETURN()
 endif()
 
-# Launch
 project(${TARGET_NAME} LANGUAGES C CXX)
 
-# library
 add_library(
     ${TARGET_NAME}
 
     OBJECT
 )
 
-# alias
 add_library(
     ${TARGET_ALIAS_NAME}
 
@@ -41,7 +38,6 @@ add_library(
     ${TARGET_NAME}
 )
 
-# sources
 target_sources(
     ${TARGET_NAME}
 
@@ -51,7 +47,6 @@ target_sources(
     "$<$<PLATFORM_ID:Linux>:Private/Linux/LinuxMain.cpp>"
 )
 
-# include directories
 target_include_directories(
     ${TARGET_NAME}
 
@@ -63,7 +58,6 @@ target_include_directories(
     "Public"
 )
 
-# preprocessor macros
 target_compile_definitions(
     ${TARGET_NAME}
 
@@ -74,10 +68,17 @@ target_compile_definitions(
 )
 
 if(ANDROID)
-    find_library(android-lib android)
-    find_library(log-lib log)
 
-    # library dependencies
+    find_library(
+        android-lib
+        android
+    )
+
+    find_library(
+        log-lib
+        log
+    )
+
     target_link_libraries(
         ${TARGET_NAME}
 
@@ -87,13 +88,13 @@ if(ANDROID)
         ${log-lib}
     )
 
-    # properties
     set_target_properties(
         ${TARGET_NAME}
 
         PROPERTIES
         POSITION_INDEPENDENT_CODE 1
     )
+
 endif() # ANDROID
 
 add_subdirectory(Samples)

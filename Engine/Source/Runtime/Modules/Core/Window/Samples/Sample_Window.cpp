@@ -1,6 +1,8 @@
 ﻿#include "Window.hpp"
 
-int main(int, const char* [])
+namespace ring {
+
+int Main()
 {
     ring::Window window({ 640, 480 }, "Sample_Window");
 
@@ -10,3 +12,5 @@ int main(int, const char* [])
 
     return 0;
 }
+
+} // namespace ring

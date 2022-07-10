@@ -12,17 +12,14 @@ if(TARGET ${TARGET_NAME})
     RETURN()
 endif()
 
-# Render
 project(${TARGET_NAME} LANGUAGES C CXX)
 
-# library
 add_library(
     ${TARGET_NAME}
 
     STATIC
 )
 
-# alias
 add_library(
     ${TARGET_ALIAS_NAME}
 
@@ -30,7 +27,6 @@ add_library(
     ${TARGET_NAME}
 )
 
-# sources
 target_sources(
     ${TARGET_NAME}
 
@@ -38,7 +34,6 @@ target_sources(
     "Private/Render.cpp"
 )
 
-# include directories
 target_include_directories(
     ${TARGET_NAME}
 
@@ -49,7 +44,6 @@ target_include_directories(
     "Public"
 )
 
-# preprocessor macros
 target_compile_definitions(
     ${TARGET_NAME}
 
@@ -59,7 +53,6 @@ target_compile_definitions(
     "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
 )
 
-# link libraries
 target_link_libraries(
     ${TARGET_NAME}
     

@@ -115,4 +115,116 @@ if(${RING_BUILD_TEST})
 
 endif()
 
+
+function(ring_add_executable)
+
+    cmake_parse_arguments(
+        MYFUNC
+        ""
+        ""
+        "TARGET;PROPERTIES;COMPILE_OPTIONS;SOURCES;LIBRARIES;INCLUDE_DIRECTORIES"
+        ${ARGN}
+    )
+
+    if(ANDROID)
+
+        # android needs shared library
+        add_library(
+            ${MYFUNC_TARGET}
+        
+            SHARED
+            $<TARGET_OBJECTS:Ring::Launch>
+        )
+
+        # export "ANativeActivity_onCreate"
+        set_target_properties(
+            ${MYFUNC_TARGET}
+
+            PROPERTIES
+            APPEND_STRING
+            PROPERTY
+            LINK_FLAGS " -u ANativeActivity_onCreate"
+        )
+
+    else()
+
+        # executable
+        add_executable(
+            ${MYFUNC_TARGET}
+            $<TARGET_OBJECTS:Ring::Launch>
+        )
+
+    endif()
+
+    # sources
+    target_sources(
+        ${MYFUNC_TARGET}
+
+        ${MYFUNC_SOURCES}
+    )
+
+    if(MYFUNC_INCLUDE_DIRECTORIES)
+
+        # include directories
+        target_include_directories(
+            ${TARGET_NAME}
+
+            ${MYFUNC_INCLUDE_DIRECTORIES}
+        )
+
+    endif()
+
+    if (ANDROID)
+
+        # library dependencies (android needs public?)
+        target_link_libraries(
+            ${MYFUNC_TARGET}
+
+            PUBLIC
+            Ring::Launch
+
+            PRIVATE
+            ${MYFUNC_LIBRARIES}
+        )
+
+    else()
+
+        # library dependencies
+        target_link_libraries(
+            ${MYFUNC_TARGET}
+
+            PRIVATE
+            Ring::Launch
+            ${MYFUNC_LIBRARIES}
+        )
+
+    endif()
+
+
+    if(MYFUNC_PROPERTIES)
+
+        # properties
+        set_target_properties(
+            ${MYFUNC_TARGET}
+
+            PROPERTIES
+
+            ${MYFUNC_PROPERTIES}
+        )
+
+    endif()
+
+    if(MYFUNC_COMPILE_OPTIONS)
+
+        # compile options
+        target_compile_options(
+            ${MYFUNC_TARGET}
+
+            ${MYFUNC_COMPILE_OPTIONS}
+        )
+
+    endif()
+
+endfunction() # ring_add_executable
+
 add_subdirectory(Runtime)
