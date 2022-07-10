@@ -1,10 +1,10 @@
 #==============================================================================
-#     Runtime
+#     Core
 #==============================================================================
 
 cmake_minimum_required(VERSION 3.18.1)
 
-set(TARGET_NAME_BASE Runtime)
+set(TARGET_NAME_BASE Core)
 set(TARGET_NAME Ring_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Ring::${TARGET_NAME_BASE})
 
@@ -12,7 +12,7 @@ if(TARGET ${TARGET_NAME})
     RETURN()
 endif()
 
-# Runtime
+# Core
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 # library
@@ -35,7 +35,7 @@ target_sources(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private/Runtime.cpp"
+    "Private/Core.cpp"
 )
 
 # include directories
@@ -59,18 +59,20 @@ target_compile_definitions(
     "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
 )
 
-# compile options
-target_compile_options(
-    ${TARGET_NAME}
+if(NOT ANDROID)
+    target_link_libraries(
+        ${TARGET_NAME}
 
-    PUBLIC
-    "$<$<CXX_COMPILER_ID:MSVC>:/Zc:__cplusplus>"
-)
+        PRIVATE
+        Ring::Window
+    )
+endif()
 
 if(${RING_BUILD_TEST})
     add_subdirectory(Tests)
 endif()
 
-add_subdirectory(Launch)
+if(NOT ANDROID)
+    add_subdirectory(Window)
+endif()
 
-add_subdirectory(Modules)

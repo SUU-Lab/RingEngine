@@ -1,3 +1,7 @@
+#==============================================================================
+#     Window_Samples
+#==============================================================================
+
 cmake_minimum_required(VERSION 3.18.1)
 
 set(TARGET_NAME_BASE Window)
@@ -12,14 +16,12 @@ endif()
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 # library
-add_library(
+add_executable(
     ${TARGET_NAME}
-
-    STATIC
 )
 
 # alias
-add_library(
+add_executable(
     ${TARGET_ALIAS_NAME}
 
     ALIAS
@@ -29,6 +31,7 @@ add_library(
 # sources
 target_sources(
     ${TARGET_NAME}
+
     PRIVATE
     "Sample_Window.cpp"
 )
@@ -48,7 +51,7 @@ target_link_libraries(
     ${TARGET_NAME}
 
     PRIVATE
-    Ring::Window
+    Ring::${TARGET_NAME_BASE}
 )
 
 # compile options
