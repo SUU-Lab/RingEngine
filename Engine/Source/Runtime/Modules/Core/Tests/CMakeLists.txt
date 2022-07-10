@@ -17,5 +17,5 @@ ring_discover_tests(
     "Test_Core.cpp"
 
     LIBRARIES
-    Ring::Core
+    Ring::${TARGET_NAME_BASE}
 )

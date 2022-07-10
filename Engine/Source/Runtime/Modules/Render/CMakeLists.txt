@@ -1,10 +1,10 @@
 #==============================================================================
-#     Runtime
+#     Render
 #==============================================================================
 
 cmake_minimum_required(VERSION 3.18.1)
 
-set(TARGET_NAME_BASE Runtime)
+set(TARGET_NAME_BASE Render)
 set(TARGET_NAME Ring_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Ring::${TARGET_NAME_BASE})
 
@@ -12,7 +12,7 @@ if(TARGET ${TARGET_NAME})
     RETURN()
 endif()
 
-# Runtime
+# Render
 project(${TARGET_NAME} LANGUAGES C CXX)
 
 # library
@@ -35,8 +35,8 @@ target_sources(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private/Runtime.cpp"
-)
+    "Private/Render.cpp"
+ "Samples/Sample_Render.cpp")
 
 # include directories
 target_include_directories(
@@ -59,17 +59,17 @@ target_compile_definitions(
     "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
 )
 
-# compile options
-target_compile_options(
+# link libraries
+target_link_libraries(
     ${TARGET_NAME}
-
-    PUBLIC
-    "$<$<CXX_COMPILER_ID:MSVC>:/Zc:__cplusplus>"
+    
+    PRIVATE
+    Ring::Core
 )
 
 if(${RING_BUILD_TEST})
     add_subdirectory(Tests)
 endif()
 
-add_subdirectory(Launch)
-add_subdirectory(Modules)
+add_subdirectory(Samples)
+

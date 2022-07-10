@@ -21,7 +21,7 @@ if (ANDROID)
         ${TARGET_NAME}
         
         SHARED
-        $<TARGET_OBJECTS:Ring::Launch>
+        $<TARGET_OBJECTS:Ring::${TARGET_NAME_BASE}>
     )
 
     # alias
@@ -35,7 +35,7 @@ else()
     # executable
     add_executable(
         ${TARGET_NAME}
-        $<TARGET_OBJECTS:Ring::Launch>
+        $<TARGET_OBJECTS:Ring::${TARGET_NAME_BASE}>
     )
 
     # alias
@@ -61,7 +61,7 @@ if (ANDROID)
         ${TARGET_NAME}
 
         PUBLIC
-        Ring::Launch
+        Ring::${TARGET_NAME_BASE}
     )
 else()
     # library dependencies
@@ -69,7 +69,7 @@ else()
         ${TARGET_NAME}
 
         PRIVATE
-        Ring::Launch
+        Ring::${TARGET_NAME_BASE}
     )
 endif()
 

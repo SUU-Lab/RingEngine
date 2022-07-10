@@ -17,5 +17,5 @@ ring_discover_tests(
     "Test_Runtime.cpp"
     
     LIBRARIES
-    Ring::Runtime
+    Ring::${TARGET_NAME_BASE}
 )
