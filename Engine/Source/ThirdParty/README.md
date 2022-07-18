@@ -1,6 +1,4 @@
-# ThirdParty
-
-ƒT[ƒhƒp[ƒeƒB
+ï»¿# ThirdParty
 
 |Name|Version|Liscense|
 |:-:|:-:|:-:|
