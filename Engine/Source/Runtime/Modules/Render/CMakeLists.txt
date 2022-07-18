@@ -4,6 +4,11 @@
 
 cmake_minimum_required(VERSION 3.18.1)
 
+# ç°ÇæÇØ
+if(ANDROID)
+    RETURN()
+endif()
+
 set(TARGET_NAME_BASE Render)
 set(TARGET_NAME Ring_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Ring::${TARGET_NAME_BASE})
@@ -27,11 +32,18 @@ add_library(
     ${TARGET_NAME}
 )
 
+# OpenGL
+find_package(OpenGL)
+
+
 target_sources(
     ${TARGET_NAME}
 
     PRIVATE
     "Private/Render.cpp"
+    "$<$<AND:$<BOOL:${OPENGL_FOUND}>,$<PLATFORM_ID:Windows>>:Private/GL/WGL/WGLContext.cpp>"
+    "$<$<AND:$<BOOL:${OPENGL_FOUND}>,$<PLATFORM_ID:Linux>>:Private/GL/X11/X11Context.cpp>"
+    "$<$<BOOL:${OPENGL_FOUND}>:Private/GL/GLRenderer.cpp>"
 )
 
 target_include_directories(
@@ -56,15 +68,13 @@ target_compile_definitions(
 target_link_libraries(
     ${TARGET_NAME}
     
-    PRIVATE
+    PUBLIC
     Ring::Core
+    "$<$<BOOL:${OPENGL_FOUND}>:OpenGL::GL>"
 )
 
 if(${RING_BUILD_TEST})
     add_subdirectory(Tests)
 endif()
 
-#if(NOT ANDROID)
-#    add_subdirectory(Samples)
-#endif()
-
+add_subdirectory(Samples)

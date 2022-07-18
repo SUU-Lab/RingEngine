@@ -24,6 +24,10 @@ public:
 
     [[nodiscard]] WindowExtent GetWindowExtent() const;
 
+    [[nodiscard]] Display* GetDisplay() const;
+
+    [[nodiscard]] ::Window GetWindow() const;
+
 private:
     void Destroy();
 

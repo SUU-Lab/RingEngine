@@ -105,6 +105,16 @@ WindowExtent X11Window::GetWindowExtent() const
         clientExtent.Height());
 }
 
+Display* X11Window::GetDisplay() const
+{
+    return m_display;
+}
+
+::Window X11Window::GetWindow() const
+{
+    return m_window;
+}
+
 void X11Window::Destroy()
 {
     if (!m_display) { return; }

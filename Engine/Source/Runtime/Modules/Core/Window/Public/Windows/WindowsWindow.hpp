@@ -32,6 +32,8 @@ public:
 
     [[nodiscard]] WindowExtent GetWindowExtent() const;
 
+    [[nodiscard]] HWND GetNativeHandle() const;
+
 private:
     static LRESULT CALLBACK WndProc(
         HWND windowHandle, UINT msg, WPARAM wParam, LPARAM lParam

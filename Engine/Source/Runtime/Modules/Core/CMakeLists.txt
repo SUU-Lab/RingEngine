@@ -58,8 +58,9 @@ if(NOT ANDROID)
     target_link_libraries(
         ${TARGET_NAME}
 
-        PRIVATE
+        PUBLIC
         Ring::Window
+        Ring::Modules
     )
 
 endif()

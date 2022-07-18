@@ -90,6 +90,11 @@ WindowExtent WindowsWindow::GetWindowExtent() const
     };
 }
 
+HWND WindowsWindow::GetNativeHandle() const
+{
+    return m_hWnd;
+}
+
 LRESULT CALLBACK WindowsWindow::WndProc(
     const HWND windowHandle, const UINT msg, const WPARAM wParam, const LPARAM lParam
     )
