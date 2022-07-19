@@ -4,6 +4,10 @@
 
 cmake_minimum_required(VERSION 3.18.1)
 
+if(ANDROID)
+    RETURN()
+endif()
+
 set(TARGET_NAME_BASE Modules)
 set(TARGET_NAME Ring_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Ring::${TARGET_NAME_BASE})
@@ -51,14 +55,6 @@ target_compile_definitions(
     "$<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>"
     "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
     "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
-)
-
-target_link_libraries(
-    ${TARGET_NAME}
-
-    PUBLIC
-    Ring::Core
-    Ring::Render
 )
 
 if(${RING_BUILD_TEST})

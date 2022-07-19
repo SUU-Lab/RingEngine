@@ -32,37 +32,40 @@ add_library(
     ${TARGET_NAME}
 )
 
-# OpenGL
-find_package(OpenGL)
-
-
 target_sources(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private/Render.cpp"
-    "$<$<AND:$<BOOL:${OPENGL_FOUND}>,$<PLATFORM_ID:Windows>>:Private/GL/WGL/WGLContext.cpp>"
-    "$<$<AND:$<BOOL:${OPENGL_FOUND}>,$<PLATFORM_ID:Linux>>:Private/GL/X11/X11Context.cpp>"
-    "$<$<BOOL:${OPENGL_FOUND}>:Private/GL/GLRenderer.cpp>"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private/Render.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL4/GLRenderer.cpp
+
+    $<$<PLATFORM_ID:Windows>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL4/WGL/WGLContext.cpp
+    >
+
+    $<$<PLATFORM_ID:Linux>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL4/X11/X11Context.cpp
+    >
+    
 )
 
 target_include_directories(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private
 
     PUBLIC
-    "Public"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Public
 )
 
 target_compile_definitions(
     ${TARGET_NAME}
 
     PUBLIC
-    "$<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>"
-    "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
-    "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
+    $<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>
+    $<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>
+    $<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>
 )
 
 target_link_libraries(
@@ -70,7 +73,18 @@ target_link_libraries(
     
     PUBLIC
     Ring::Core
-    "$<$<BOOL:${OPENGL_FOUND}>:OpenGL::GL>"
+
+    $<$<PLATFORM_ID:Windows,Linux>:
+        glew
+    >
+
+    $<$<PLATFORM_ID:Windows>:
+        opengl32.lib
+    >
+
+    $<$<PLATFORM_ID:Linux>:
+        GL
+    >
 )
 
 if(${RING_BUILD_TEST})

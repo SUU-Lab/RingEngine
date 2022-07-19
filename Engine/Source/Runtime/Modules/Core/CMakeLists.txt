@@ -53,17 +53,14 @@ target_compile_definitions(
     "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
 )
 
-if(NOT ANDROID)
+# TODO: ANDROID
+target_link_libraries(
+    ${TARGET_NAME}
 
-    target_link_libraries(
-        ${TARGET_NAME}
-
-        PUBLIC
-        Ring::Window
-        Ring::Modules
-    )
-
-endif()
+    PUBLIC
+    Ring::Modules
+    Ring::Window
+)
 
 if(${RING_BUILD_TEST})
 

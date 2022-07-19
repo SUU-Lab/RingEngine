@@ -8,6 +8,8 @@ endif()
 
 project(Ring LANGUAGES C CXX)
 
+add_subdirectory(ThirdParty)
+
 if(${RING_BUILD_TEST})
 
     if(${CMAKE_CXX_STANDARD} LESS 11)
@@ -46,8 +48,6 @@ if(${RING_BUILD_TEST})
     endif()
 
     enable_testing()
-
-    add_subdirectory(ThirdParty)
     
     include(GoogleTest)
 

@@ -2,7 +2,7 @@
 
 #include "Window.hpp"
 #include "Renderer.hpp"
-#include "GL/GLContext.hpp"
+#include "GL4/GLContext.hpp"
 #include <memory>
 
 namespace ring {

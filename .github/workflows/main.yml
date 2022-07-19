@@ -78,6 +78,7 @@ jobs:
       - name: Install package
         run: |
           sudo apt-get install ninja-build
+          sudo apt-get install mesa-common-dev libgl1-mesa-dev freeglut3-dev
 
       - name: Make build directory
         working-directory: ./Engine/Build

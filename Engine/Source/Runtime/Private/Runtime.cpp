@@ -1,7 +1,11 @@
 ﻿#include "Runtime.hpp"
+
+#if RING_PLATFORM_WINDOWS || RING_PLATFORM_LINUX
 #include "ModuleEntries.hpp"
 #include "Core.hpp"
 #include "Render.hpp"
+#endif
+
 #include <iostream>
 
 namespace ring {

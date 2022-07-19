@@ -1,6 +1,6 @@
 ﻿#include "Render.hpp"
 #include "ModuleEntries.hpp"
-#include "GL/GLRenderer.hpp"
+#include "GL4/GLRenderer.hpp"
 #include <cassert>
 
 namespace ring {

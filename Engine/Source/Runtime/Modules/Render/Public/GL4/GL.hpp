@@ -1,11 +1,11 @@
 ﻿#pragma once
 
 #if RING_PLATFORM_WINDOWS
-#include <gl/GL.h>
+#include <GL/glew.h>
+#include <GL/wglew.h>
 #endif
 
 #if RING_PLATFORM_LINUX
-#define GLX_GLXEXT_PROTOTYPES
+#include <GL/glew.h>
 #include <GL/glx.h>
-#include <GL/glxext.h>
 #endif
