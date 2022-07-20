@@ -1,4 +1,4 @@
-﻿#include "GL4/WGL/WGLContext.hpp"
+﻿#include "GL/WGL/WGLContext.hpp"
 #include <cassert>
 
 

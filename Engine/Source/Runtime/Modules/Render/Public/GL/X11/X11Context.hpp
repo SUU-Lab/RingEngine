@@ -1,27 +1,27 @@
 ﻿#pragma once
 
 #include "Window.hpp"
-#include "GL4/GL.hpp"
+#include "GL/GL.hpp"
 
 namespace ring {
 inline namespace render {
 namespace gl {
 
-class WGLContext final
+class X11Context final
 {
 public:
-    explicit WGLContext(const Window& window);
-    ~WGLContext();
+    explicit X11Context(const Window& window);
+    ~X11Context();
 
     void SwapBuffers();
 
 private:
-    HWND m_hWnd;
-    HDC m_hDC;
-    HGLRC m_hGLRC;
+    GLXContext m_context;
+    Display* m_display;
+    ::Window m_window;
 };
 
-typedef WGLContext Context;
+typedef X11Context Context;
 
 } // namespace gl
 } // inline namespace render

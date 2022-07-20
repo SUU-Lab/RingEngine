@@ -37,14 +37,14 @@ target_sources(
 
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/Private/Render.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL4/GLRenderer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/GLRenderer.cpp
 
     $<$<PLATFORM_ID:Windows>:
-        ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL4/WGL/WGLContext.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/WGL/WGLContext.cpp
     >
 
     $<$<PLATFORM_ID:Linux>:
-        ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL4/X11/X11Context.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/X11/X11Context.cpp
     >
     
 )
