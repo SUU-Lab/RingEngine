@@ -35,8 +35,8 @@ ring_add_executable(
     "$<$<CXX_COMPILER_ID:MSVC>:/Zc:__cplusplus>"
 
     LIBRARIES
-    $<$<PLATFORM_ID:Windows,Linux>:Ring::Core>
-    $<$<PLATFORM_ID:Windows,Linux>:Ring::Render>
+    Ring::Core
+    Ring::Render
 )
 
 add_subdirectory(Launch)

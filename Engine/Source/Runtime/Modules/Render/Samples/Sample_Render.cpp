@@ -3,8 +3,9 @@
 
 namespace ring {
 
-int Main()
+int Main(LaunchState* launchState)
 {
+#if RING_PLATFORM_WINDOWS || RING_PLATFORM_LINUX
     Window window({ 640, 480 }, "Render_Sample");
 
     GLRenderer glRenderer(window);
@@ -15,7 +16,7 @@ int Main()
 
         glRenderer.End();
     }
-
+#endif
     return 0;
 }
 

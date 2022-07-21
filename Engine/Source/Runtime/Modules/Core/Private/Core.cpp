@@ -4,57 +4,62 @@
 
 namespace ring {
 
-void CoreEntry::Entry(ModuleEntries& moduleEntries)
+std::unique_ptr<DesktopCoreEntry> CoreEntry::Make(LaunchState*)
+{
+    return std::make_unique<DesktopCoreEntry>();
+}
+
+void DesktopCoreEntry::Entry(ModuleEntries& moduleEntries)
 {
     m_moduleEntries = &moduleEntries;
 
     moduleEntries.Entry(
         ModuleEntryPoint::Core_Initialize,
-        std::bind(&CoreEntry::Initialize, this));
+        std::bind(&DesktopCoreEntry::Initialize, this));
 
     moduleEntries.Entry(
         ModuleEntryPoint::Core_Setup,
-        std::bind(&CoreEntry::Setup, this));
+        std::bind(&DesktopCoreEntry::Setup, this));
 
     moduleEntries.Entry(
         ModuleEntryPoint::Core_Start,
-        std::bind(&CoreEntry::Start, this));
+        std::bind(&DesktopCoreEntry::Start, this));
 
     moduleEntries.Entry(
         ModuleEntryPoint::UpdateScene,
-        std::bind(&CoreEntry::UpdateScene, this));
+        std::bind(&DesktopCoreEntry::UpdateScene, this));
 
     moduleEntries.Entry(
         ModuleEntryPoint::Core_Terminate,
-        std::bind(&CoreEntry::Terminate, this));
+        std::bind(&DesktopCoreEntry::Terminate, this));
 
     moduleEntries.Entry(
         ModuleEntryPoint::Core_Finalize,
-        std::bind(&CoreEntry::Finalize, this));
+        std::bind(&DesktopCoreEntry::Finalize, this));
 }
 
-const Window& CoreEntry::GetWindow() const
+const Window& DesktopCoreEntry::GetWindow() const
 {
     return *m_window;
 }
 
-void CoreEntry::Initialize()
+void DesktopCoreEntry::Initialize()
 {
     m_window = std::make_unique<Window>(
         ClientExtent{ 640, 480 }, "RingRuntime");
 }
 
-void CoreEntry::Setup()
+void DesktopCoreEntry::Setup()
 {
 
 }
 
-void CoreEntry::Start()
+void DesktopCoreEntry::Start()
 {
 
 }
 
-void CoreEntry::UpdateScene()
+void DesktopCoreEntry::UpdateScene()
 {
     assert(m_window);
     assert(m_moduleEntries);
@@ -65,12 +70,12 @@ void CoreEntry::UpdateScene()
     }
 }
 
-void CoreEntry::Terminate()
+void DesktopCoreEntry::Terminate()
 {
 
 }
 
-void CoreEntry::Finalize()
+void DesktopCoreEntry::Finalize()
 {
     m_window.reset();
 }

@@ -1,12 +1,15 @@
 ﻿
+#include "LaunchState.hpp"
+
 namespace ring {
 
-void Main();
+void Main(LaunchState*);
 
 } // namespace ring
 
 int main(int, const char*[])
 {
-    ring::Main();
+    ring::LaunchState launchState = {};
+    ring::Main(&launchState);
     return 0;
 }

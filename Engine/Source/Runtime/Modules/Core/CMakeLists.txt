@@ -31,17 +31,19 @@ target_sources(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private/Core.cpp"
+    $<$<PLATFORM_ID:Windows,Linux>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Core.cpp>
+    $<$<PLATFORM_ID:Android>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Android/AndroidCore.cpp>
 )
 
 target_include_directories(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private
 
     PUBLIC
-    "Public"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Public
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Launch/Public
 )
 
 target_compile_definitions(
@@ -53,13 +55,12 @@ target_compile_definitions(
     "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
 )
 
-# TODO: ANDROID
 target_link_libraries(
     ${TARGET_NAME}
 
     PUBLIC
     Ring::Modules
-    Ring::Window
+    $<$<PLATFORM_ID:Windows,Linux>:Ring::Window>
 )
 
 if(${RING_BUILD_TEST})
@@ -68,4 +69,8 @@ if(${RING_BUILD_TEST})
 
 endif()
 
-add_subdirectory(Window)
+if(NOT ANDROID)
+
+    add_subdirectory(Window)
+
+endif()

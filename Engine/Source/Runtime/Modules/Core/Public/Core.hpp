@@ -1,19 +1,25 @@
 ﻿#pragma once
 
-#ifndef RING_PLATFORM_ANDROID
-#include "Window.hpp"
+#if RING_PLATFORM_ANDROID
+#include "Android/AndroidCore.hpp"
 #endif
 
+#if RING_PLATFORM_WINDOWS || RING_PLATFORM_LINUX
+
+#include "LaunchState.hpp"
+#include "Window.hpp"
 #include "ModuleEntry.hpp"
 #include <memory>
 
 namespace ring {
 
-class CoreEntry final : public ModuleEntry
+class DesktopCoreEntry final : public ModuleEntry
 {
 public:
-    CoreEntry() {}
-    ~CoreEntry() {}
+    [[nodiscard]] static std::unique_ptr<DesktopCoreEntry> Make(LaunchState* launchState);
+
+    DesktopCoreEntry() {}
+    ~DesktopCoreEntry() {}
 
     void Entry(ModuleEntries& moduleEntries) override;
 
@@ -32,4 +38,8 @@ private:
     ModuleEntries* m_moduleEntries = nullptr;
 };
 
+typedef DesktopCoreEntry CoreEntry;
+
 } // namespace ring
+
+#endif

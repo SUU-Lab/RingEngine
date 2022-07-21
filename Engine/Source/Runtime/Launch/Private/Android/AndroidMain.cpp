@@ -139,7 +139,12 @@ void android_main(struct android_app* state)
     std::thread androidEventThread(AndroidEventThreadWorker, state);
     androidEventThread.detach();
 
-    ring::Main();
+    while (!state->window) {
+        std::this_thread::yield();
+    }
+
+    ring::LaunchState launchState = { state->window };
+    ring::Main(&launchState);
 
     while (!g_AndroidExitRequested)
     {}

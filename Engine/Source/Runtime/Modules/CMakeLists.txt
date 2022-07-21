@@ -4,10 +4,6 @@
 
 cmake_minimum_required(VERSION 3.18.1)
 
-if(ANDROID)
-    RETURN()
-endif()
-
 set(TARGET_NAME_BASE Modules)
 set(TARGET_NAME Ring_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Ring::${TARGET_NAME_BASE})

@@ -2,6 +2,7 @@
 
 int main(int, const char*[])
 {
-    ring::Main();
+    ring::LaunchState launchState = {};
+    ring::Main(&launchState);
     return 0;
 }

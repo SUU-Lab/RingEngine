@@ -9,6 +9,8 @@ namespace ring {
 class RenderEntry final : public ModuleEntry
 {
 public:
+    [[nodiscard]] static std::unique_ptr<RenderEntry> Make(const CoreEntry& coreEntry);
+
     RenderEntry(const CoreEntry& coreEntry);
     ~RenderEntry() {}
 

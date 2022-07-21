@@ -1,7 +1,9 @@
 ﻿#pragma once
 
+#include "LaunchState.hpp"
+
 namespace ring {
 
-int Main();
+int Main(LaunchState* launchState);
 
 } // namespace ring

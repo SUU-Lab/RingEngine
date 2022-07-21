@@ -4,11 +4,6 @@
 
 cmake_minimum_required(VERSION 3.18.1)
 
-# ç°ÇæÇØ
-if(ANDROID)
-    RETURN()
-endif()
-
 set(TARGET_NAME_BASE Render)
 set(TARGET_NAME Ring_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Ring::${TARGET_NAME_BASE})
@@ -42,11 +37,12 @@ target_sources(
     $<$<PLATFORM_ID:Windows>:
         ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/WGL/WGLContext.cpp
     >
-
     $<$<PLATFORM_ID:Linux>:
         ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/X11/X11Context.cpp
     >
-    
+    $<$<PLATFORM_ID:Android>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/EGL/EGLContext.cpp
+    >
 )
 
 target_include_directories(
@@ -84,6 +80,11 @@ target_link_libraries(
 
     $<$<PLATFORM_ID:Linux>:
         GL
+    >
+
+    $<$<PLATFORM_ID:Android>:
+        EGL
+        GLESv1_CM
     >
 )
 

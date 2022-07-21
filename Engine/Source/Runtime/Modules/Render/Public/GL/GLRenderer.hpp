@@ -1,6 +1,9 @@
 ﻿#pragma once
 
+#if RING_PLATFORM_WINDOWS || RING_PLATFORM_LINUX
 #include "Window.hpp"
+#endif
+
 #include "Renderer.hpp"
 #include "GL/GLContext.hpp"
 #include <memory>
@@ -11,7 +14,14 @@ inline namespace render {
 class GLRenderer final : public Renderer
 {
 public:
+#if RING_PLATFORM_WINDOWS || RING_PLATFORM_LINUX
     GLRenderer(const Window& window);
+#endif
+
+#if RING_PLATFORM_ANDROID
+    GLRenderer(ANativeWindow* window);
+#endif
+
     ~GLRenderer();
 
     void Begin() override;

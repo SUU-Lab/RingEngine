@@ -5,6 +5,11 @@
 
 namespace ring {
 
+std::unique_ptr<RenderEntry> RenderEntry::Make(const CoreEntry& coreEntry)
+{
+    return std::make_unique<RenderEntry>(coreEntry);
+}
+
 RenderEntry::RenderEntry(const CoreEntry& coreEntry)
     : m_coreEntry(coreEntry)
 {}

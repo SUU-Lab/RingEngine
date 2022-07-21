@@ -3,9 +3,17 @@
 namespace ring {
 inline namespace render {
 
+#if RING_PLATFORM_WINDOWS || RING_PLATFORM_LINUX
 GLRenderer::GLRenderer(const Window& window)
     : m_context(std::make_unique<gl::Context>(window))
 {}
+#endif
+
+#if RING_PLATFORM_ANDROID
+GLRenderer::GLRenderer(ANativeWindow* window)
+    : m_context(std::make_unique<gl::Context>(window))
+{}
+#endif
 
 GLRenderer::~GLRenderer()
 {}
