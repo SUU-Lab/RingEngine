@@ -1,8 +1,9 @@
-﻿#include "Window.hpp"
+﻿#include "LaunchState.hpp"
+#include "Window.hpp"
 
 namespace ring {
 
-int Main()
+int Main(LaunchState*)
 {
     ring::Window window({ 640, 480 }, "Sample_Window");
 
