@@ -96,6 +96,7 @@ target_link_libraries(
 
     $<$<PLATFORM_ID:Linux>:
         GL
+        ${CMAKE_DL_LIBS}
     >
 
     $<$<PLATFORM_ID:Android>:
@@ -104,10 +105,14 @@ target_link_libraries(
     >
 )
 
-add_dependencies(
-    ${TARGET_NAME}
-    build_vulkan_hpp
-)
+if(VULKAN_HPP_RUN_GENERATOR)
+
+    add_dependencies(
+        ${TARGET_NAME}
+        build_vulkan_hpp
+    )
+
+endif()
 
 if(${RING_BUILD_TEST})
     add_subdirectory(Tests)

@@ -73,9 +73,7 @@ target_link_libraries(
     PUBLIC
     Ring::Modules
 
-    $<$<PLATFORM_ID:Windows,Linux>:
-        Ring::Window
-    >
+    $<$<PLATFORM_ID:Windows,Linux>:Ring::Window>
 )
 
 if(${RING_BUILD_TEST})
