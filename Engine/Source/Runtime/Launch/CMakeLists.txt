@@ -11,7 +11,7 @@ if(ANDROID)
     add_library(
         native_app_glue
         STATIC
-        "${NDK_DIR}/sources/android/native_app_glue/android_native_app_glue.c"
+        ${NDK_DIR}/sources/android/native_app_glue/android_native_app_glue.c
     )
 endif() # ANDROID
 
@@ -42,29 +42,47 @@ target_sources(
     ${TARGET_NAME}
 
     PRIVATE
-    "$<$<PLATFORM_ID:Android>:Private/Android/AndroidMain.cpp>"
-    "$<$<PLATFORM_ID:Windows>:Private/Windows/WindowsMain.cpp>"
-    "$<$<PLATFORM_ID:Linux>:Private/Linux/LinuxMain.cpp>"
+    $<$<PLATFORM_ID:Android>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/Android/AndroidMain.cpp
+    >
+
+    $<$<PLATFORM_ID:Windows>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/Windows/WindowsMain.cpp
+    >
+
+    $<$<PLATFORM_ID:Linux>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/Linux/LinuxMain.cpp
+    >
 )
 
 target_include_directories(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private"
-    "$<$<PLATFORM_ID:Android>:${NDK_DIR}/sources/android/native_app_glue>"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private
+    $<$<PLATFORM_ID:Android>:
+        ${NDK_DIR}/sources/android/native_app_glue
+    >
 
     PUBLIC
-    "Public"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Public
 )
 
 target_compile_definitions(
     ${TARGET_NAME}
 
     PUBLIC
-    "$<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>"
-    "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
-    "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
+    $<$<PLATFORM_ID:Android>:
+        RING_PLATFORM_ANDROID=1
+    >
+
+    $<$<PLATFORM_ID:Windows>:
+        RING_PLATFORM_WINDOWS=1
+    >
+
+    $<$<PLATFORM_ID:Linux>:
+        RING_PLATFORM_LINUX=1
+    >
 )
 
 if(ANDROID)

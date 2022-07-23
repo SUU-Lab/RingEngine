@@ -24,9 +24,11 @@ ring_add_executable(
 
     SOURCES
     PRIVATE
-    "Sample_Launch.cpp"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Sample_Launch.cpp
 
     COMPILE_OPTIONS
     PUBLIC
-    "$<$<CXX_COMPILER_ID:MSVC>:/Zc:__cplusplus>"
+    $<$<CXX_COMPILER_ID:MSVC>:
+        /Zc:__cplusplus
+    >
 )

@@ -14,9 +14,9 @@ ring_discover_tests(
     ${TARGET_NAME}
 
     SOURCES
-    "Test_ClientExtent.cpp"
-    "Test_WindowExtent.cpp"
-    "Test_Window.cpp"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Test_ClientExtent.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Test_WindowExtent.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Test_Window.cpp
 
     LIBRARIES
     Ring::${TARGET_NAME_BASE}

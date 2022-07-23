@@ -31,8 +31,12 @@ target_sources(
     ${TARGET_NAME}
 
     PRIVATE
-    $<$<PLATFORM_ID:Windows,Linux>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Core.cpp>
-    $<$<PLATFORM_ID:Android>:${CMAKE_CURRENT_SOURCE_DIR}/Private/Android/AndroidCore.cpp>
+    $<$<PLATFORM_ID:Windows,Linux>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/Core.cpp
+    >
+    $<$<PLATFORM_ID:Android>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/Android/AndroidCore.cpp
+    >
 )
 
 target_include_directories(
@@ -50,9 +54,17 @@ target_compile_definitions(
     ${TARGET_NAME}
 
     PUBLIC
-    "$<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>"
-    "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
-    "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
+    $<$<PLATFORM_ID:Android>:
+        RING_PLATFORM_ANDROID=1
+    >
+
+    $<$<PLATFORM_ID:Windows>:
+        RING_PLATFORM_WINDOWS=1
+    >
+
+    $<$<PLATFORM_ID:Linux>:
+        RING_PLATFORM_LINUX=1
+    >
 )
 
 target_link_libraries(
@@ -60,7 +72,10 @@ target_link_libraries(
 
     PUBLIC
     Ring::Modules
-    $<$<PLATFORM_ID:Windows,Linux>:Ring::Window>
+
+    $<$<PLATFORM_ID:Windows,Linux>:
+        Ring::Window
+    >
 )
 
 if(${RING_BUILD_TEST})

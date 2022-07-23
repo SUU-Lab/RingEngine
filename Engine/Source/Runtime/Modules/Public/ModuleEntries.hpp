@@ -22,7 +22,6 @@ public:
 
     void ExitRequest();
 
-private:
     void Call(const ModuleEntryPoint moduleEntryPoint);
 
 private:

@@ -31,26 +31,34 @@ target_sources(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private/ModuleEntries.cpp"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private/ModuleEntries.cpp
 )
 
 target_include_directories(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private
 
     PUBLIC
-    "Public"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Public
 )
 
 target_compile_definitions(
     ${TARGET_NAME}
 
     PUBLIC
-    "$<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>"
-    "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
-    "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
+    $<$<PLATFORM_ID:Android>:
+        RING_PLATFORM_ANDROID=1
+    >
+
+    $<$<PLATFORM_ID:Windows>:
+        RING_PLATFORM_WINDOWS=1
+    >
+
+    $<$<PLATFORM_ID:Linux>:
+        RING_PLATFORM_LINUX=1
+    >
 )
 
 if(${RING_BUILD_TEST})

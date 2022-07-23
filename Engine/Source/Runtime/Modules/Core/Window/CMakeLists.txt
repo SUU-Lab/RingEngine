@@ -39,10 +39,16 @@ target_sources(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private/ClientExtent.cpp"
-    "Private/WindowExtent.cpp"
-    "$<$<PLATFORM_ID:Windows>:Private/Windows/WindowsWindow.cpp>"
-    "$<$<PLATFORM_ID:Linux>:Private/X11/X11Window.cpp>"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private/ClientExtent.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private/WindowExtent.cpp
+
+    $<$<PLATFORM_ID:Windows>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/Windows/WindowsWindow.cpp
+    >
+
+    $<$<PLATFORM_ID:Linux>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/X11/X11Window.cpp
+    >
 )
 
 # include directories
@@ -50,10 +56,10 @@ target_include_directories(
     ${TARGET_NAME}
 
     PRIVATE
-    "Private"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private
 
     PUBLIC
-    "Public"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Public
 )
 
 # preprocessor macros
@@ -61,9 +67,17 @@ target_compile_definitions(
     ${TARGET_NAME}
 
     PUBLIC
-    "$<$<PLATFORM_ID:Android>:RING_PLATFORM_ANDROID=1>"
-    "$<$<PLATFORM_ID:Windows>:RING_PLATFORM_WINDOWS=1>"
-    "$<$<PLATFORM_ID:Linux>:RING_PLATFORM_LINUX=1>"
+    $<$<PLATFORM_ID:Android>:
+        RING_PLATFORM_ANDROID=1
+    >
+
+    $<$<PLATFORM_ID:Windows>:
+        RING_PLATFORM_WINDOWS=1
+    >
+
+    $<$<PLATFORM_ID:Linux>:
+        RING_PLATFORM_LINUX=1
+    >
 )
 
 find_package(X11)

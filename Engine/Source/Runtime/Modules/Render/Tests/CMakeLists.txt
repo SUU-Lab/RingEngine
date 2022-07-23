@@ -14,7 +14,7 @@ ring_discover_tests(
     ${TARGET_NAME}
 
     SOURCES
-    "Test_Render.cpp"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Test_Render.cpp
 
     LIBRARIES
     Ring::${TARGET_NAME_BASE}

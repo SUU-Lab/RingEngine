@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.18.1)
 set(TARGET_NAME_BASE Runtime)
 set(TARGET_NAME Ring_${TARGET_NAME_BASE})
 set(TARGET_ALIAS_NAME Ring::${TARGET_NAME_BASE})
+
 set(LAUNCH_TARGET_NAME Launch)
 
 if(TARGET ${TARGET_NAME})
@@ -21,18 +22,20 @@ ring_add_executable(
 
     SOURCES
     PRIVATE
-    "Private/Runtime.cpp"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private/Runtime.cpp
 
     INCLUDE_DIRECTORIES
     PRIVATE
-    "Private"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private
 
     PUBLIC
-    "Public"
+    ${CMAKE_CURRENT_SOURCE_DIR}/Public
 
     COMPILE_OPTIONS
     PUBLIC
-    "$<$<CXX_COMPILER_ID:MSVC>:/Zc:__cplusplus>"
+    $<$<CXX_COMPILER_ID:MSVC>:
+        /Zc:__cplusplus
+    >
 
     LIBRARIES
     Ring::Core
