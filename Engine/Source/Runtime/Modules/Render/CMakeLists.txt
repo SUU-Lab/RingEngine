@@ -33,6 +33,7 @@ target_sources(
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/Private/Render.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/GLRenderer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Private/Vulkan/VulkanRenderer.cpp
 
     $<$<PLATFORM_ID:Windows>:
         ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/WGL/WGLContext.cpp
@@ -53,6 +54,13 @@ target_include_directories(
 
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/Public
+    ${RingVulkanHppIncludeDirectories}
+)
+
+message(
+    "target_include_directories=
+        ${CMAKE_CURRENT_SOURCE_DIR}/Public
+        ${RingVulkanHppIncludeDirectories}"
 )
 
 target_compile_definitions(
@@ -94,6 +102,11 @@ target_link_libraries(
         EGL
         GLESv1_CM
     >
+)
+
+add_dependencies(
+    ${TARGET_NAME}
+    build_vulkan_hpp
 )
 
 if(${RING_BUILD_TEST})
