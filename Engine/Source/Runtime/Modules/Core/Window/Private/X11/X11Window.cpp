@@ -38,15 +38,22 @@ X11Window::~X11Window()
 
 bool X11Window::Update()
 {
-    XEvent xEvent;
-    XNextEvent(m_display, &xEvent);
+    XPending(m_display);
 
-    switch (xEvent.type)
+    while (QLength(m_display))
     {
-    case DestroyNotify:
-        Destroy();
-        return false;
+        XEvent xEvent;
+        XNextEvent(m_display, &xEvent);
+
+        switch (xEvent.type)
+        {
+        case DestroyNotify:
+            Destroy();
+            return false;
+        }
     }
+
+    XFlush(m_display);
     return true;
 }
 

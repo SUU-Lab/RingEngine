@@ -1,7 +1,6 @@
 ﻿#include "GL/WGL/WGLContext.hpp"
 #include <cassert>
 
-
 namespace ring {
 inline namespace render {
 namespace gl {

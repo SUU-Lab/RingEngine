@@ -10,12 +10,17 @@ X11Context::X11Context(const Window& window)
 {
 	const int attributes[] =
 	{
-		GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-		GLX_RENDER_TYPE,   GLX_RGBA_BIT,
-		GLX_DOUBLEBUFFER,  True,  /* Request a double-buffered color buffer with */
-		GLX_RED_SIZE,      1,     /* the maximum number of bits per component    */
-		GLX_GREEN_SIZE,    1,
-		GLX_BLUE_SIZE,     1,
+		GLX_X_RENDERABLE    , True,
+		GLX_DRAWABLE_TYPE   , GLX_WINDOW_BIT,
+		GLX_RENDER_TYPE     , GLX_RGBA_BIT,
+		GLX_X_VISUAL_TYPE   , GLX_TRUE_COLOR,
+		GLX_RED_SIZE        , 8,
+		GLX_GREEN_SIZE      , 8,
+		GLX_BLUE_SIZE       , 8,
+		GLX_ALPHA_SIZE      , 8,
+		GLX_DEPTH_SIZE      , 24,
+		GLX_STENCIL_SIZE    , 8,
+		GLX_DOUBLEBUFFER    , True,
 		None
 	};
 
