@@ -1,6 +1,3 @@
 [submodule "Engine/Source/ThirdParty/googletest"]
 	path = Engine/Source/ThirdParty/googletest
 	url = https://github.com/google/googletest.git
-[submodule "Engine/Source/ThirdParty/Vulkan-Hpp"]
-	path = Engine/Source/ThirdParty/Vulkan-Hpp
-	url = https://github.com/KhronosGroup/Vulkan-Hpp.git
