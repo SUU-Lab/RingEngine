@@ -105,15 +105,6 @@ target_link_libraries(
     >
 )
 
-if(VULKAN_HPP_RUN_GENERATOR)
-
-    add_dependencies(
-        ${TARGET_NAME}
-        build_vulkan_hpp
-    )
-
-endif()
-
 if(${RING_BUILD_TEST})
     add_subdirectory(Tests)
 endif()

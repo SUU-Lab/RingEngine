@@ -2,6 +2,7 @@
 #     ThirdParty
 #==============================================================================
 
+# GoogleTest
 if(${RING_BUILD_TEST})
 
     option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
@@ -10,19 +11,11 @@ if(${RING_BUILD_TEST})
 
 endif()
 
+# glew
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/glew ${CMAKE_CURRENT_BINARY_DIR}/glew)
 
-# Vulkan-Hpp
-if(NOT ANDROID)
-
-    option (VULKAN_HPP_RUN_GENERATOR "Run the HPP generator" ON)
-
-endif()
-
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Vulkan-Hpp ${CMAKE_CURRENT_BINARY_DIR}/Vulkan-Hpp)
-
+# Vulkan-Headers
 set(RingVulkanHppIncludeDirectories
-    ${CMAKE_CURRENT_SOURCE_DIR}/Vulkan-Hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Vulkan-Hpp/Vulkan-Headers/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/Vulkan-Headers/include
     PARENT_SCOPE
 )
