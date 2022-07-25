@@ -72,6 +72,7 @@ target_link_libraries(
 
     PUBLIC
     Ring::Modules
+    Ring::Math
 
     $<$<PLATFORM_ID:Windows,Linux>:Ring::Window>
 )
@@ -81,6 +82,8 @@ if(${RING_BUILD_TEST})
     add_subdirectory(Tests)
 
 endif()
+
+add_subdirectory(Math)
 
 if(NOT ANDROID)
 

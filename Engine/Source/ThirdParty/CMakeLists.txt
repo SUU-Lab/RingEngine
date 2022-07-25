@@ -19,3 +19,11 @@ set(RingVulkanHppIncludeDirectories
     ${CMAKE_CURRENT_SOURCE_DIR}/Vulkan-Headers/include
     PARENT_SCOPE
 )
+
+# eigen
+# EIGEN_DEFAULT_TO_ROW_MAJOR "Use row-major as default matrix storage order"
+# EIGEN_MPL2_ONLY
+set(RingEigenIncludeDirectories
+    ${CMAKE_CURRENT_SOURCE_DIR}/eigen/Eigen
+    PARENT_SCOPE
+)

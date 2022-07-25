@@ -57,12 +57,6 @@ target_include_directories(
     ${RingVulkanHppIncludeDirectories}
 )
 
-message(
-    "target_include_directories=
-        ${CMAKE_CURRENT_SOURCE_DIR}/Public
-        ${RingVulkanHppIncludeDirectories}"
-)
-
 target_compile_definitions(
     ${TARGET_NAME}
 
