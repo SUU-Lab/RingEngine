@@ -42,6 +42,7 @@ target_include_directories(
 
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/Public
+    ${RingThirdPartyPrerequisitesDirectory}
 )
 
 target_compile_definitions(
