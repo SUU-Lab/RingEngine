@@ -2,6 +2,12 @@
 #     ThirdParty
 #==============================================================================
 
+# Prerequisites
+set(RingThirdPartyPrerequisitesDirectory
+    ${CMAKE_CURRENT_SOURCE_DIR}/Prerequisites
+    PARENT_SCOPE
+)
+
 # GoogleTest
 if(${RING_BUILD_TEST})
 

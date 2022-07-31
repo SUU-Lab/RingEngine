@@ -40,4 +40,5 @@ target_include_directories(
     INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/Public
     ${RingEigenIncludeDirectories}
+    ${RingThirdPartyPrerequisitesDirectory}
 )
