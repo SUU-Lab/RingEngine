@@ -1,4 +1,4 @@
-﻿#include <gtest/gtest.h>
+﻿#include "googletest.hpp"
 #include "Window.hpp"
 
 TEST(Window, Property)

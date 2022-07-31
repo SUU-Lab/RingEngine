@@ -1,5 +1,5 @@
 ﻿#include "ClientExtent.hpp"
-#include <gtest/gtest.h>
+#include "googletest.hpp"
 
 TEST(ClientExtent, Construction)
 {

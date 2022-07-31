@@ -1,5 +1,5 @@
 ﻿#include "WindowExtent.hpp"
-#include <gtest/gtest.h>
+#include "googletest.hpp"
 
 TEST(WindowExtent, Construction)
 {
