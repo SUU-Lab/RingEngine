@@ -47,7 +47,7 @@ target_sources(
     >
 
     $<$<PLATFORM_ID:Linux>:
-        ${CMAKE_CURRENT_SOURCE_DIR}/Private/X11/X11Window.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/Linux/LinuxWindow.cpp
     >
 )
 
@@ -81,16 +81,16 @@ target_compile_definitions(
     >
 )
 
-find_package(X11)
-if (X11_FOUND)
-    # library dependencies
-    target_link_libraries(
-        ${TARGET_NAME}
+# library dependencies
+target_link_libraries(
+    ${TARGET_NAME}
 
-        PRIVATE
-        X11::X11
-    )
-endif()
+    PUBLIC
+    $<$<PLATFORM_ID:Linux>:
+        glew
+        glfw
+    >
+)
 
 if(${RING_BUILD_TEST})
     add_subdirectory(Tests)

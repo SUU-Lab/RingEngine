@@ -39,7 +39,7 @@ target_sources(
         ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/WGL/WGLContext.cpp
     >
     $<$<PLATFORM_ID:Linux>:
-        ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/X11/X11Context.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/GLFW/GLFWContext.cpp
     >
     $<$<PLATFORM_ID:Android>:
         ${CMAKE_CURRENT_SOURCE_DIR}/Private/GL/EGL/EGLContext.cpp
