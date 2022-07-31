@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Renderer.hpp"
-#include "Vulkan/VulkanPrerequisites.hpp"
+#include "vulkan-headers.hpp"
 
 namespace ring {
 inline namespace render {
