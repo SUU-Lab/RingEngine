@@ -16,6 +16,7 @@ LinuxWindow::LinuxWindow(const ClientExtent& clientExtent, std::string_view titl
     const int result = ::glfwInit();
 	assert(result);
 
+	// OpenGL4.1で作成する
 	::glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	::glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	::glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
@@ -36,6 +37,30 @@ LinuxWindow::LinuxWindow(const ClientExtent& clientExtent, std::string_view titl
 		title.data(),
 		nullptr,
 		nullptr);
+
+	// 失敗した場合、GLES3.0で作成する
+	if (!m_window)
+	{
+		::glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+		::glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		::glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+		::glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_FALSE);
+		::glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
+		::glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT,
+#ifndef NDEBUG
+			GLFW_TRUE
+#else
+			GLFW_FALSE
+#endif
+		);
+
+		m_window = ::glfwCreateWindow(
+			clientExtent.Width(),
+			clientExtent.Height(),
+			title.data(),
+			nullptr,
+			nullptr);
+	}
 
 	::glfwSetWindowUserPointer(m_window, this);
 	//::glfwSetWindowPosCallback(m_window, GLFWWindow::OnMove);
