@@ -7,3 +7,6 @@
 [submodule "Engine/Source/ThirdParty/eigen"]
 	path = Engine/Source/ThirdParty/eigen
 	url = https://gitlab.com/libeigen/eigen.git
+[submodule "Engine/Source/ThirdParty/glfw"]
+	path = Engine/Source/ThirdParty/glfw
+	url = https://github.com/glfw/glfw.git
