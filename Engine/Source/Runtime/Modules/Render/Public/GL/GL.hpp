@@ -1,13 +1,12 @@
 ﻿#pragma once
 
 #if RING_PLATFORM_WINDOWS
-#include <GL/glew.h>
-#include <GL/wglew.h>
+#include "glew.hpp"
 #endif
 
 #if RING_PLATFORM_LINUX
-#include <GL/glew.h>
-#include <GL/glx.h>
+#include "glew.hpp"
+#include "glfw.hpp"
 #endif
 
 #if RING_PLATFORM_ANDROID
