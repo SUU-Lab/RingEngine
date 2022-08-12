@@ -53,6 +53,10 @@ target_sources(
     $<$<PLATFORM_ID:Linux>:
         ${CMAKE_CURRENT_SOURCE_DIR}/Private/Linux/LinuxMain.cpp
     >
+
+    $<$<PLATFORM_ID:Darwin>:
+        ${CMAKE_CURRENT_SOURCE_DIR}/Private/Mac/MacMain.mm
+    >
 )
 
 target_include_directories(
@@ -82,6 +86,10 @@ target_compile_definitions(
 
     $<$<PLATFORM_ID:Linux>:
         RING_PLATFORM_LINUX=1
+    >
+
+    $<$<PLATFORM_ID:Darwin>:
+        RING_PLATFORM_MAC=1
     >
 )
 
@@ -114,5 +122,24 @@ if(ANDROID)
     )
 
 endif() # ANDROID
+
+if(APPLE)
+
+    set_property(
+        TARGET ${TARGET_NAME}
+        APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc"
+    )
+    
+    set_target_properties(
+        ${TARGET_NAME}
+        PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "${TARGET_NAME}"
+    )
+    
+    target_link_libraries(
+        ${TARGET_NAME}
+        "-framework AppKit" "-framework QuartzCore" "-framework Metal"
+    )
+
+endif() # APPLE
 
 add_subdirectory(Samples)

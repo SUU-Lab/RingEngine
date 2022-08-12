@@ -146,6 +146,15 @@ function(ring_add_executable)
             LINK_FLAGS " -u ANativeActivity_onCreate"
         )
 
+    elseif(APPLE)
+
+        # executable
+        add_executable(
+            ${MYFUNC_TARGET}
+            MACOSX_BUNDLE
+            $<TARGET_OBJECTS:Ring::Launch>
+        )
+
     else()
 
         # executable

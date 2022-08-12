@@ -34,6 +34,9 @@
 .vs/
 
 Engine/Source/out/
+Engine/Source/build/
 Engine/Build/Windows/build/
 Engine/Build/Android/arm64-v8a/cmake_binary_dir.txt
 Engine/Build/Android/x86_64/cmake_binary_dir.txt
+
+.DS_Store
